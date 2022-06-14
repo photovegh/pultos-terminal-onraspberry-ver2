@@ -9,6 +9,7 @@ TODO:
 HACK:
 BUG:
 FIXME:
+VERSION-2:
 
 // lastTransaction: [],
 // NOTE: Ezek kellenek a forgalom adatokhoz

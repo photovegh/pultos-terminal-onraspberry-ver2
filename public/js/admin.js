@@ -144,3 +144,6 @@ function keszletValtozas() {
 
 console.log("Ez az adminisztációs Js ami pl figyeli az input mezőket");
 console.log("🤔😋😋😋😋😋🤔😎😎😎");
+function alapanyagok() {
+    console.log("errererererere");
+}

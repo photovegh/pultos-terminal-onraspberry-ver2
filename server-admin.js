@@ -85,13 +85,20 @@ app.get("/dataread", (req, res) => {
     });
 }); /*   HACK:HACK:      HACK:HACK: */
 
-/* INFO: /datareadcsoport 😋😋😋😋😋😋*/
-app.get("/datareadcsoport", (req, res) => {
-    con.query("SELECT * FROM csoportok", (err, data) => {
+//VERSION-2:
+
+app.get("/alapanyagok", (req, res) => {
+    console.log("ALAPANYAG console OK");
+    res.sendFile(__dirname + "/views/alapanyagok.html");
+});
+/* INFO: /alapanyagok*/
+/* app.get("/alapanyagok", (req, res) => {
+    con.query("SELECT * FROM alapanyagok", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-});
+}); */
+//VERSION-2:
 
 /* INFO: /datareadforgalom 😋😋😋😋😋😋*/
 app.get("/datareadforgalom", (req, res) => {
@@ -100,41 +107,10 @@ app.get("/datareadforgalom", (req, res) => {
         res.send(data);
     });
 });
-/* TODO: /datareadkiszerelés 😋😋😋😋😋😋*/
-app.get("/datareadkiszereles", (req, res) => {
-    con.query("SELECT * FROM kiszereles", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* TODO: /datareadxkimeres 😋😋😋😋😋😋*/
-app.get("/datareadxkimeres", (req, res) => {
-    con.query("SELECT * FROM xkimeres", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* TODO: /datareadxkimeresnev 😋😋😋😋😋😋*/
-app.get("/datareadxkimeresnev", (req, res) => {
-    con.query("SELECT * FROM xkimeresnev", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
 
 /* TODO: /datareadtermekek 😋😋😋😋😋😋*/
 app.get("/datareadtermekek", (req, res) => {
     con.query("SELECT * FROM termekek", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* TODO: //datareadkevert 😋😋😋😋😋😋*/
-app.get("/datareadkevert", (req, res) => {
-    con.query("SELECT * FROM kevert", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
@@ -150,19 +126,6 @@ app.get("/forgalom", (req, res) => {
     res.sendFile(__dirname + "/views/forgalom.html");
 });
 
-/* INFO: xkimeresnev */
-app.get("/xkimeresnev", (req, res) => {
-    res.sendFile(__dirname + "/views/xkimeresnev.html");
-});
-/* INFO: kiszereles */
-app.get("/kiszereles", (req, res) => {
-    res.sendFile(__dirname + "/views/kiszereles.html");
-});
-/* INFO: csoportok */
-app.get("/csoportok", (req, res) => {
-    console.log("csoportok console OK");
-    res.sendFile(__dirname + "/views/csoportok.html");
-});
 /* INFO: termekek */
 app.get("/termekek", (req, res) => {
     res.sendFile(__dirname + "/views/termekek.html");
@@ -171,162 +134,7 @@ app.get("/termekek", (req, res) => {
 app.get("/termekek-adatlap", (req, res) => {
     res.sendFile(__dirname + "/views/termekek-adatlap.html");
 });
-/* INFO: kevert */
-app.get("/kevert", (req, res) => {
-    res.sendFile(__dirname + "/views/kevert.html");
-});
 
-/* INFO: insertxkimeresnev  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
-app.post("/insertxkimeresnev", bodyParser.json(), (req, res) => {
-    const insertData = [req.body.nev, req.body.urtartalom];
-    const nev = req.body.nev;
-    const urtartalom = req.body.urtartalom;
-    /* FIXME:FIXME:FIXME: */
-    con.query(
-        "INSERT INTO xkimeresnev (nev, urtartalom) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            if (err) throw err;
-            //insertData = [""];
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-    res.sendFile(__dirname + "/views/xkimeresnev.html");
-});
-
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-app.patch("/updatexkimeresnev", bodyParser.json(), (req, res) => {
-    var insertNev = [req.body.nev];
-    var insertUrtartalom = [req.body.urtartalom];
-    var id = req.body.id;
-    console.log(insertNev);
-    console.log(insertUrtartalom);
-    con.query(
-        "UPDATE xkimeresnev SET nev = ? , urtartalom = ? WHERE id = ?",
-        [insertNev, insertUrtartalom, id],
-        (err, data) => {
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-});
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-
-/* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
-app.post("/inserxkimeres", bodyParser.json(), (req, res) => {
-    const insertData = [
-        req.body.termek_id,
-        req.body.termek_nev,
-        req.body.xkimeresnev_id,
-    ];
-    /* FIXME:FIXME:FIXME: */
-    console.log(insertData);
-    /* FIXME:FIXME:FIXME: */
-    con.query(
-        "INSERT INTO xkimeres (termek_id, termek_nev, xkimeresnev_id) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-    /* FIXME:FIXME:FIXME: */
-    res.sendFile(__dirname + "/views/xkimeresnev.html");
-});
-/* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
-
-/* INFO: insertkiszereles  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
-app.post("/insertkiszereles", bodyParser.json(), (req, res) => {
-    const insertData = [req.body.nev, req.body.urtartalom];
-    const nev = req.body.nev;
-    const urtartalom = req.body.urtartalom;
-    /* FIXME:FIXME:FIXME: */
-    con.query(
-        "INSERT INTO kiszereles (nev, urtartalom) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            if (err) throw err;
-            //insertData = [""];
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-    res.sendFile(__dirname + "/views/termekek.html");
-    //BUG:res.sendFile(__dirname + "/views/kiszereles.html");
-});
-
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-app.patch("/updatekiszereles", bodyParser.json(), (req, res) => {
-    var insertNev = [req.body.nev];
-    var insertUrtartalom = [req.body.urtartalom];
-    var id = req.body.id;
-    console.log(insertNev);
-    console.log(insertUrtartalom);
-    con.query(
-        "UPDATE kiszereles SET nev = ? , urtartalom = ? WHERE id = ?",
-        [insertNev, insertUrtartalom, id],
-        (err, data) => {
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-});
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-
-/* INFO: insertcsoportok  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
-app.post("/insertcsoportok", bodyParser.json(), (req, res) => {
-    const insertData = [req.body.nev];
-    const nev = req.body.nev;
-    /* FIXME:FIXME:FIXME: */
-    con.query(
-        "INSERT INTO csoportok (nev) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-    res.sendFile(__dirname + "/views/csoportok.html");
-});
-
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-app.patch("/updatecsoportok", bodyParser.json(), (req, res) => {
-    var insertData = [req.body.nev];
-    var id = req.body.id;
-    console.log(insertData);
-    con.query(
-        "UPDATE csoportok SET nev = ? WHERE id = ?",
-        [insertData, id],
-        (err, data) => {
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    );
-});
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-/* TODO:TODO:TODO:INFO:TODO:TODO:TODO:TODO: */
 app.patch("/updatetermekekbeszerzes", bodyParser.json(), (req, res) => {
     var id = req.body.id;
     console.log(id);
@@ -432,6 +240,268 @@ app.post("/inserttermekek", bodyParser.json(), (req, res) => {
 });
 /* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 
+/* INFO: password authentication */
+function loggerMiddleWare(req, res, next) {
+    const pin = true;
+    if (pin) {
+        //console.log("loggerMiddleWare is OK 😋 ");
+        next();
+    } else {
+        //console.log(body);
+        /* res.status(401).send("Authentical error is NEMOK 🤔 "); */
+        res.status(200).sendFile(__dirname + "/views/index.html");
+        /* console.log("loggerMiddleWare is NEMOK 🤔 ");
+        return; */
+    }
+}
+
+app.get("/pult", loggerMiddleWare, (req, res) => {
+    res.sendFile(__dirname + "/views/pult.html");
+});
+app.listen(port, () => console.log("server is OK 😋 ADMINPORT: " + port));
+//app.listen(7766, () => console.log("server is OK 😋 ADMINPORT: " + port));
+
+//VERSION-2:
+/* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
+/* app.get("/datareadkiszereles", (req, res) => {
+    con.query("SELECT * FROM kiszereles", (err, data) => {
+        if (err) throw err;
+        console.log(data[1].urtartalom + " " + data[1].nev);
+        res.send(data);
+    });
+}); */
+/* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
+//VERSION-2:
+//VERSION-2:
+/* INFO: /datareadcsoport 😋😋😋😋😋😋*/
+app.get("/datareadcsoport", (req, res) => {
+    con.query("SELECT * FROM csoportok", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO: /datareadkiszerelés 😋😋😋😋😋😋*/
+app.get("/datareadkiszereles", (req, res) => {
+    con.query("SELECT * FROM kiszereles", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO: /datareadxkimeres 😋😋😋😋😋😋*/
+app.get("/datareadxkimeres", (req, res) => {
+    con.query("SELECT * FROM xkimeres", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO: /datareadxkimeresnev 😋😋😋😋😋😋*/
+app.get("/datareadxkimeresnev", (req, res) => {
+    con.query("SELECT * FROM xkimeresnev", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO: //datareadkevert 😋😋😋😋😋😋*/
+app.get("/datareadkevert", (req, res) => {
+    con.query("SELECT * FROM kevert", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
+//VERSION-2:
+//VERSION-2:
+/* INFO: xkimeresnev */
+app.get("/xkimeresnev", (req, res) => {
+    res.sendFile(__dirname + "/views/xkimeresnev.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* INFO: kiszereles */
+app.get("/kiszereles", (req, res) => {
+    res.sendFile(__dirname + "/views/kiszereles.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* INFO: csoportok */
+app.get("/csoportok", (req, res) => {
+    console.log("csoportok console OK");
+    res.sendFile(__dirname + "/views/csoportok.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* INFO: kevert */
+/* app.get("/kevert", (req, res) => {
+    res.sendFile(__dirname + "/views/kevert.html");
+}); */
+//VERSION-2:
+//VERSION-2:
+/* INFO: insertxkimeresnev  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
+app.post("/insertxkimeresnev", bodyParser.json(), (req, res) => {
+    const insertData = [req.body.nev, req.body.urtartalom];
+    const nev = req.body.nev;
+    const urtartalom = req.body.urtartalom;
+    /* FIXME:FIXME:FIXME: */
+    con.query(
+        "INSERT INTO xkimeresnev (nev, urtartalom) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            //insertData = [""];
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    res.sendFile(__dirname + "/views/xkimeresnev.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+app.patch("/updatexkimeresnev", bodyParser.json(), (req, res) => {
+    var insertNev = [req.body.nev];
+    var insertUrtartalom = [req.body.urtartalom];
+    var id = req.body.id;
+    console.log(insertNev);
+    console.log(insertUrtartalom);
+    con.query(
+        "UPDATE xkimeresnev SET nev = ? , urtartalom = ? WHERE id = ?",
+        [insertNev, insertUrtartalom, id],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+});
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+//VERSION-2:
+//VERSION-2:
+/* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
+app.post("/inserxkimeres", bodyParser.json(), (req, res) => {
+    const insertData = [
+        req.body.termek_id,
+        req.body.termek_nev,
+        req.body.xkimeresnev_id,
+    ];
+    /* FIXME:FIXME:FIXME: */
+    console.log(insertData);
+    /* FIXME:FIXME:FIXME: */
+    con.query(
+        "INSERT INTO xkimeres (termek_id, termek_nev, xkimeresnev_id) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    /* FIXME:FIXME:FIXME: */
+    res.sendFile(__dirname + "/views/xkimeresnev.html");
+});
+/* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
+//VERSION-2:
+//VERSION-2:
+/* INFO: insertkiszereles  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
+app.post("/insertkiszereles", bodyParser.json(), (req, res) => {
+    const insertData = [req.body.nev, req.body.urtartalom];
+    const nev = req.body.nev;
+    const urtartalom = req.body.urtartalom;
+    /* FIXME:FIXME:FIXME: */
+    con.query(
+        "INSERT INTO kiszereles (nev, urtartalom) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            //insertData = [""];
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    res.sendFile(__dirname + "/views/termekek.html");
+    //BUG:res.sendFile(__dirname + "/views/kiszereles.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+app.patch("/updatekiszereles", bodyParser.json(), (req, res) => {
+    var insertNev = [req.body.nev];
+    var insertUrtartalom = [req.body.urtartalom];
+    var id = req.body.id;
+    console.log(insertNev);
+    console.log(insertUrtartalom);
+    con.query(
+        "UPDATE kiszereles SET nev = ? , urtartalom = ? WHERE id = ?",
+        [insertNev, insertUrtartalom, id],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+});
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+//VERSION-2:
+//VERSION-2:
+/* INFO: insertcsoportok  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
+app.post("/insertcsoportok", bodyParser.json(), (req, res) => {
+    const insertData = [req.body.nev];
+    const nev = req.body.nev;
+    /* FIXME:FIXME:FIXME: */
+    con.query(
+        "INSERT INTO csoportok (nev) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    res.sendFile(__dirname + "/views/csoportok.html");
+});
+//VERSION-2:
+//VERSION-2:
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+app.patch("/updatecsoportok", bodyParser.json(), (req, res) => {
+    var insertData = [req.body.nev];
+    var id = req.body.id;
+    console.log(insertData);
+    con.query(
+        "UPDATE csoportok SET nev = ? WHERE id = ?",
+        [insertData, id],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+});
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+/* TODO:TODO:TODO:INFO:TODO:TODO:TODO:TODO: */
+//VERSION-2:
+//VERSION-2:
 /* BUG: insertkevert  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 app.post("/insertkevert", bodyParser.json(), (req, res) => {
     //const nev = req.body.nev;
@@ -477,34 +547,4 @@ app.post("/insertkevert", bodyParser.json(), (req, res) => {
     res.sendFile(__dirname + "/views/kevert.html");
 });
 /* BUG: insertkevert  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
-
-/* INFO: password authentication */
-function loggerMiddleWare(req, res, next) {
-    const pin = true;
-    if (pin) {
-        //console.log("loggerMiddleWare is OK 😋 ");
-        next();
-    } else {
-        //console.log(body);
-        /* res.status(401).send("Authentical error is NEMOK 🤔 "); */
-        res.status(200).sendFile(__dirname + "/views/index.html");
-        /* console.log("loggerMiddleWare is NEMOK 🤔 ");
-        return; */
-    }
-}
-
-app.get("/pult", loggerMiddleWare, (req, res) => {
-    res.sendFile(__dirname + "/views/pult.html");
-});
-app.listen(port, () => console.log("server is OK 😋 ADMINPORT: " + port));
-//app.listen(7766, () => console.log("server is OK 😋 ADMINPORT: " + port));
-
-/* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
-/* app.get("/datareadkiszereles", (req, res) => {
-    con.query("SELECT * FROM kiszereles", (err, data) => {
-        if (err) throw err;
-        console.log(data[1].urtartalom + " " + data[1].nev);
-        res.send(data);
-    });
-}); */
-/* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
+//VERSION-2:
