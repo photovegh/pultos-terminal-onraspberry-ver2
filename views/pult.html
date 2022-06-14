@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pult</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="w3.css"> -->
+</head>
+
+<!-- <body style="height: 75% ; width: 80px;0%"> -->
+
+<body>
+
+    <!-- NOTE: felső sav START -->
+    <!-- HACK: *  * HACK: -->
+    <!-- <nav class="fixed-top navbar navbar-expand-sm bg-danger navbar-dark d-flex justify-content-between">
+        <div>
+            <form action="/" method="get">
+                <button type="button" class="btn btn-success kilepes">Kilépés!</button>
+            </form>
+        </div> -->
+    <!-- HACK: *  * HACK: -->
+    <!-- <div>
+        <form action="/" method="get">
+            <button type="submit" class="btn btn-secondary kilepes"> 🤔 1366 pixel</button>
+        </form>
+    </div> -->
+    <!-- HACK: now -->
+    <!-- <div id="csoportnevKijelzo" class="bg-dark text-white p-2"></div> -->
+    <!-- <div>
+        <form action="/" method="get">
+            <button type="button" class="btn btn-secondary" id="hitelRendezes"
+            onclick="fullTransactionsHitel()">HITEL
+            rendezése</button>
+        </form>
+    </div> -->
+    <!-- HACK: *  * HACK: -->
+    <!-- <div>
+        <form action="/" method="get">
+            <button type="button" class="btn btn-warning kosarak">KOSARAK</button>
+        </form>
+    </div>
+    </nav> -->
+    <!-- HACK: *  * HACK: -->
+    <!-- NOTE: felső sav END -->
+
+    <!-- @media NOTE: -->
+    <!-- <div class="app_page1 fixed"> -->
+    <div class="app_page1">
+        <div class="row">
+
+            <div class="col-sm-9 " id="left">
+                <div class="container mt-3">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs bg-warning" id="createTabs">
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content text-center" id="createContent">
+                    </div>
+                </div>
+                <!-- BUG: BALL BUG:BUG:BUG:-->
+                <!-- <div id=" termekdrop"></div>
+                <div id="termek"></div> -->
+            </div>
+            <div class="col-sm-3" id="right">
+
+                <!-- BUG: JOBB BUG:BUG:BUG:-->
+                <div id="pultos">
+                    <div id="pult"></div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div><!-- BUG: -->
+        </div>
+        <!-- @media NOTE: -->
+
+        <div class="absolute">
+            <button type="button" class="btn btn-dark mr-4 btn-lg " onclick="trKp()">** Kp **</button>
+            <button type="button" class="btn btn-dark mr-4 btn-lg" onclick="trKp2()">* Kp 2 *</button>
+            <button type="button" class="btn btn-info mr-4 btn-lg" onclick="trCard()">Kártya</button>
+            <button type="button" class="btn btn-secondary mr-4 btn-lg" onclick="nevesitettHitel()">Hitel</button>
+            <button type="button" class="btn btn-warning mr-4 btn-lg kosarBt"
+                onclick="naTegyukEgyUjKosarba()">Kosárba</button>
+        </div>
+
+        <!-- NOTE: also sav START -->
+        <div class="fixed-bottom bg-danger text-white p-2 ">
+            <form action="/config" method="get">
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-dark kpKivet">Kasszából kivét.</button>
+                    <p id="datum"></p>
+                    <h3 id="localStorageName"></h3>
+
+                    <!-- <button type="submit" class="btn btn-dark">Kasszából kivét.</button> -->
+                    <span id="summa">Mindösszesen</span>
+                </div>
+            </form>
+        </div>
+        <!-- NOTE: also sav END -->
+
+    </div>
+    <!-- NOTE: TOAST -->
+    <!-- HACK: *  * HACK: -->
+    <!-- <div class="toast mt-3">
+        <div class="toast-header">
+            Üres kosár törlése
+        </div>
+        <div class="toast-body">
+            Ezt most törlöm mert üres kosár!
+        </div>
+    </div> -->
+    <!-- HACK: *  * HACK: -->
+
+    <!-- The HACK: kosarakModal -->
+    <div class="modal" id="kosarakModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Melyik kosár tartalmát töltsem vissza a pultra?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="kosarakFelsorolasa"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The HACK: kosarakModal -->
+
+    <!-- The Modal -->
+    <div class="modal" id="myModalKivet">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Beszállítók kifizetése.</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/action_page.php">
+                        <label for="kifName">Kinek:</label><br>
+                        <input type="text" id="kifName" name="kifName"><br>
+                        <label for="kifOssz">Mennyit:</label><br>
+                        <input type="number" id="kifOssz" name="kifOssz"><br><br>
+                        <label for="kifMegj">Megjegyzés:</label><br>
+                        <textarea name="kifMegj" rows="10" cols="30"></textarea>
+                        <br><br>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The HACK: kosarMegnevezes -->
+    <div class="modal" id="kosarMegnevezesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Mi legyen a neve a kosárnak_</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label for="kosarMegnevezes">Kosárnév :</label><br>
+                    <input type="text" id="kosarMegnevezesId" name="kosarMegnevezes">
+                    <!-- FIXME: -->
+                    <div>
+                        <div id="keyboardTemplateKosar"></div>
+                    </div>
+                    <!-- FIXME: -->
+                    <!-- <input type="text" id="kosarMegnevezes"> -->
+
+                    <!-- <div id="kosarMegnevezes"></div> -->
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" id=""
+                        onclick="kosarNevSzerintiTarolas()">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The HACK: kosarMegnevezes -->
+
+    <!-- The HACK:HACK:HACK:HACK:HACK: hitelMegnevezes -->
+    <div class="modal" id="hitelMegnevezesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Kinek megy a hitel</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label for="hitelMegnevezes">Név :</label><br>
+                    <input type="text" id="hitelMegnevezesId" name="hitelMegnevezes">
+                    <div>
+                        <!-- FIXME: -->
+                        <div>
+                            <div id="keyboardTemplateHitel"></div>
+                        </div>
+                        <!-- FIXME: -->
+                        <!-- INFO: -->
+
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" id=""
+                        onclick="trHitel()">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The HACK:HACK:HACK:HACK:HACK: hiteMegnevezes -->
+
+    <!-- The HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK: kivetMegnevezes -->
+    <div class="modal" id="kivetMegnevezesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Kinek megy a kivet</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label for="kivetMegnevezes">Név :</label><br>
+                    <input type="text" id="kivetMegnevezesId" name="kivetMegnevezes">
+                    <div>
+                        <!-- FIXME: -->
+                        <div>
+                            <div id="keyboardTemplateKivet"></div>
+                        </div>
+                        <!-- FIXME: -->
+                        <!-- INFO: -->
+
+                    </div>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" id=""
+                        onclick="kivetOsszegNumber()">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK:HACK: kivetMegnevezes -->
+
+    <!-- The HACK:HACK:HACK:HACK: hitelRendezesModal -->
+    <div class="modal" id="hitelRendezesModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Hetelek rendezése:</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="hitelList">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The HACK:HACK:HACK:HACK: hitelRendezesModal -->
+    <!-- The HACK:HACK:HACK:HACK: fizetoHitelesModModal -->
+    <div class="modal" id="fizetoHitelesModModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Hogyan rendezi? :</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <!-- <div class="modal-body" id="hitelList">
+
+                </div> -->
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hitelFizetesKp()">** Kp
+                        **</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                        onclick="hitelFizetesCard()">Kártya</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Mégse</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The HACK:HACK:HACK:HACK: fizetoHitelesModModal -->
+
+    <!-- The Modal -->
+    <div class="modal" id="osszegModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Mennyit ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="" method="GET" id="pswForm" name="myForm">
+                        <input type="number" id="osszegKivetId" /></br>
+                        <input type="button" value="1" id="1" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="2" id="2" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="3" id="3" class="m-2 btn-lg btn btn-primary pinButton calc" /><br>
+                        <input type="button" value="4" id="4" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="5" id="5" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="6" id="6" class="m-2 btn-lg btn btn-primary pinButton calc" /><br>
+                        <input type="button" value="7" id="7" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="8" id="8" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <input type="button" value="9" id="9" class="m-2 btn-lg btn btn-primary pinButton calc" /><br>
+                        <input type="button" value="C" id="clear" class="m-2 btn-lg btn btn-danger pinButton clear" />
+                        <input type="button" value="0" id="0" class="m-2 btn-lg btn btn-primary pinButton calc" />
+                        <!-- <input type="button" value="enter" id="enter" class="m-2 btn-lg btn btn-warning pinButton enter"
+                            onclick="trKivet()" /> -->
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="trKivet()">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="visszajaroModal" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h4 class="modal-title">Visszajáró cimletenként</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="cimletFelsorolas">
+                </div>
+                <div class="modal-footer bg-info text-white">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="jquery.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="pult.js"></script>
+
+</body>
+
+</html>

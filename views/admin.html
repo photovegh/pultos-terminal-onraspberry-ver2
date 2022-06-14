@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style-admin.css">
+</head>
+
+<body>
+
+    <!-- NOTE: felső fix sav -->
+    <div class="container-fluid">
+
+        <!-- NOTE: felső sav -->
+        <nav class="fixed-top navbar navbar-expand-sm bg-light navbar-dark d-flex justify-content-around">
+            <div>
+                <!-- <form action="/termekek" method="get"> -->
+                <form action="/termekek-adatlap" method="get">
+                    <button type="submit" class="btn btn-success ">Termék adatok
+                    </button>
+                </form>
+            </div>
+            <div>
+                <form action="/kevert" method="get">
+                    <button type="submit" class="btn btn-info ">Kevert italok
+                        (4) </button>
+                </form>
+            </div>
+            <div>
+                <form action="/xkimeresnev" method="get">
+
+                    <button class="btn btn-warning " id="btnxkimeresnev">Kimérhető
+                        mennyiségek (2) ok </button>
+                </form>
+            </div>
+            <div>
+                <form action="/kiszereles" method="get">
+                    <button type="submit" class="btn btn-secondary">Kiszerelés felvitele (opcionális) ok </button>
+                </form>
+            </div>
+
+            <div>
+                <form action="/csoportok" method="get">
+                    <button type="submit" class="btn btn-danger">Termékcsoportok (1) ok </button>
+                </form>
+            </div>
+
+            <div>
+                <form action="/forgalom" method="get">
+                    <button type="submit" class="btn btn-secondary ">Forgalom</button>
+                </form>
+            </div>
+
+            <div>
+                <form action="/" method="get">
+                    <button type="submit" style="background-color:deeppink ">other
+                        🤔 </button>
+                </form>
+            </div>
+            <div>
+                <form action="/pultosokadmin" method="get">
+                    <button type="submit" class="btn btn-dark ">Pultos admin</button>
+                </form>
+            </div>
+        </nav>
+        <br><br><br><br>
+        <div id="adatok"></div>
+
+        <!-- <div class="row mt-5 pt-3">
+            <div class="col-9 bg-info pt-1" id="termekdrop">
+            </div>
+            <div class="col-9 bg-info pt-1" id="termek">
+            </div>
+            <div class="col-3 bg-warning" id="pult">
+                <p>hello jobb 1111</p>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!-- NOTE: valid product area -->
+    <div class="container-fluid">
+        <div class="text-center">
+            <h2>A már rögzített termékek készletáltozás felvitele (arubeszerzés)</h2>
+            <div class="font-weight-bold m-2 p-2">
+                Termékek szűkítése: <input type="text" name="nevSzukit" id="nevSzukit">
+                <button type="button" class="btn btn-success" id="szukit-btn">Szűrés</button>
+            </div>
+            <div id="productArea">
+                <!-- <button type="button" class="btn btn-primary" id="productArea"></button> -->
+            </div>
+            <h2>Szótöredékre is szűkíthető</h2>
+            <!-- <button type="button" class="btn btn-primary xyzNAME" data-testId="yes" id="xyzID">mi a mano</button> -->
+        </div>
+        <div class="text-right">
+            <h6><small>It runs on Rapsberry server © 05/22/2022</small></h6>
+        </div>
+    </div>
+
+    <!-- NOTE: also sav -->
+    <!-- <div class="fixed-bottom bg-danger text-white p-2">
+        <form action="/config" method="get">
+            <button type="submit">⚡ config ⚡ </button>
+            <span id="summa"></span>
+        </form>
+    </div> -->
+
+    <!-- The Modal -->
+    <div class="modal fade" id="addStockQuantityModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header bg-info  text-white"><br>
+                    <h4 class="modal-title " id="addStockQuantityName"></h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="addStockQuantity">
+                    <h4>Leltározot készlet: <span id="addStockQuantityKeszlet"></span> </h4>
+                    Készletváltozás: <input type="number" name="addQuantity" id="addQuantity">
+                    <h1></h1>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer bg-info">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        onclick="keszletValtozas()">Hozzáad</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="jquery.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>
