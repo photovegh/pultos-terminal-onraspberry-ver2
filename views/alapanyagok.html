@@ -24,7 +24,7 @@
             <div>
                 <!-- <form action="/termekek" method="get"> -->
                 <form action="/termekek-adatlap" method="get">
-                    <button type="submit" class="btn btn-success ">Termék adatok
+                    <button type="submit" class="btn btn-info ">Termék adatok
                     </button>
                 </form>
             </div>
@@ -49,7 +49,7 @@
 
             <div>
                 <form action="/forgalom" method="get">
-                    <button type="submit" class="btn btn-secondary ">Forgalom</button>
+                    <button type="submit" class="btn btn-info ">Forgalom</button>
                 </form>
             </div>
 
@@ -70,8 +70,69 @@
     </div>
 
     <!-- NOTE: valid product area -->
-    <div class="container-fluid">
-        hello alapadat
+    <div class="container-fluid text-center">
+        <div>
+
+            <form class="form-horizontal" action="/insertalapanyagok" method="post">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Neve</th>
+                                <th>Mértékegység</th>
+                                <th>Kiszerelés</th>
+                                <th>Gyüjtő</th>
+                                <th>Leltározandó</th>
+                                <th>Kritikus mennyiség</th>
+                                <th>Beszerzési ár</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alapanyagok">
+                            <tr>
+                                <td>134
+                                </td>
+                                <td><input type="text" id="nev" name="nev" placeholder="Alapanyag neve" required
+                                        class="form-control form-control-sm"></td>
+                                <td>john@example.com</td>
+                                <td><input type="number" id="urtartalom" name="urtartalom" maxlength="11" size="11"
+                                        required class="form-control form-control-sm">
+                                </td>
+                                <td><input type="number" id="gyujto" name="gyujto" maxlength="11" size="11"
+                                        class="form-control form-control-sm"></td>
+                                <td>Leltározandó</td>
+                                <td><input type="number" id="kritikus" name="kritikus" maxlength="11" size="11"
+                                        class="form-control form-control-sm"></td>
+                                <td>
+                                    <input type="number" id="beszar" name="beszar" maxlength="11" size="11" required
+                                        class="form-control form-control-sm">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="submit" class="btn btn-primary  mr-4">Uj alapanyeg felvitele</button>
+            </form><br>
+        </div>
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Neve</th>
+                    <th>Mértékegység</th>
+                    <th>Kiszerelés</th>
+                    <th>Gyüjtő</th>
+                    <th>Leltározandó</th>
+                    <th>Kritikus mennyiség</th>
+                    <th>Beszerzési ár</th>
+                </tr>
+            </thead>
+            <tbody id="alapanyagok">
+            </tbody>
+        </table>
+        <div id="adatok"></div>
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
     </div>
 
     <script src="jquery.slim.min.js"></script>
