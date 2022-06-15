@@ -88,7 +88,7 @@ app.get("/dataread", (req, res) => {
 //VERSION-2:
 
 app.get("/alapanyagok", (req, res) => {
-    console.log("ALAPANYAG console OK");
+    //console.log("ALAPANYAG console OK");
     res.sendFile(__dirname + "/views/alapanyagok.html");
 });
 /* INFO: /alapanyagok*/
@@ -198,6 +198,52 @@ app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
         req.body.kritikus,
         req.body.gyujto,
     ]; */
+
+//VERSION-2:
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+/* BUG: insertalapanyagok  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
+app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
+    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
+    console.log("req.body.nev");
+    console.log(req.body.nev);
+    console.log("-------------");
+    //VERSION-2:
+    /* var insertData = [
+        req.body.nev,
+        req.body.mertekegyseg,
+        req.body.kiszereles,
+        req.body.leltarozando,
+        req.body.kritikus,
+        req.body.gyujto,
+        req.body.jelenlegiKeszlet,
+        req.body.beszar,
+    ]; */
+    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
+
+    /* FIXME:FIXME:FIXME: */
+    //VERSION-2:
+    /* con.query(
+        "INSERT INTO alapanyagok (nev, beszar, elar, leltarozando, kritikus, gyujto, urtartalom, keszlet,  cl, sumcl, kiszereles_id, csoport_id) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            insertData = [""];
+            try {
+                console.log("*** send back data ***");
+                console.log(data);
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    ); */
+    /* FIXME:FIXME:FIXME: */
+
+    res.sendFile(__dirname + "/views/alapanyagok.html");
+});
+/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
+//VERSION-2:
+
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 /* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 app.post("/inserttermekek", bodyParser.json(), (req, res) => {
