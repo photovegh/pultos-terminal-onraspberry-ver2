@@ -45,6 +45,7 @@ function newAlapanyag() {
     if (sendData) {
         alert("SEND !!!");
         sendData = true;
+        document.getElementById("newAlapanyag").reset();
     }
     //VERSION-2:
 }
