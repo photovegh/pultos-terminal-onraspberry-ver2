@@ -85,20 +85,55 @@ app.get("/dataread", (req, res) => {
     });
 }); /*   HACK:HACK:      HACK:HACK: */
 
-//VERSION-2:
-
+//VERSION-2://VERSION-2:
+// INFO: alapanyagok HTML
 app.get("/alapanyagok", (req, res) => {
     //console.log("ALAPANYAG console OK");
     res.sendFile(__dirname + "/views/alapanyagok.html");
 });
-/* INFO: /alapanyagok*/
-/* app.get("/alapanyagok", (req, res) => {
+// INFO: /alapanyagok DATA
+app.get("/datareadalapanyagok", (req, res) => {
     con.query("SELECT * FROM alapanyagok", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-}); */
-//VERSION-2:
+});
+// INFO: /alapanyagok DATA insert
+app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
+    console.log("req.body.nev");
+    console.log(req.body.nev);
+    console.log("-------------");
+    var insertData = [
+        req.body.nev,
+        req.body.mertekegyseg,
+        req.body.kiszereles,
+        req.body.leltarozando,
+        req.body.kritikus,
+        req.body.gyujto,
+        req.body.keszlet,
+        req.body.beszar,
+    ];
+    console.log("insertData");
+    console.log(insertData);
+    con.query(
+        "INSERT INTO alapanyagok (nev, mertekegyseg, kiszereles, leltarozando, kritikus, gyujto, keszlet,  beszar) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            insertData = [""];
+            try {
+                console.log("*** send back data ***");
+                console.log(data);
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+
+    res.sendFile(__dirname + "/views/alapanyagok.html");
+});
+//VERSION-2://VERSION-2:
 
 /* INFO: /datareadforgalom 😋😋😋😋😋😋*/
 app.get("/datareadforgalom", (req, res) => {
@@ -199,51 +234,6 @@ app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
         req.body.gyujto,
     ]; */
 
-//VERSION-2:
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-/* BUG: insertalapanyagok  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
-app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
-    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-    console.log("req.body.nev");
-    console.log(req.body.nev);
-    console.log("-------------");
-    //VERSION-2:
-    /* var insertData = [
-        req.body.nev,
-        req.body.mertekegyseg,
-        req.body.kiszereles,
-        req.body.leltarozando,
-        req.body.kritikus,
-        req.body.gyujto,
-        req.body.jelenlegiKeszlet,
-        req.body.beszar,
-    ]; */
-    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-
-    /* FIXME:FIXME:FIXME: */
-    //VERSION-2:
-    /* con.query(
-        "INSERT INTO alapanyagok (nev, beszar, elar, leltarozando, kritikus, gyujto, urtartalom, keszlet,  cl, sumcl, kiszereles_id, csoport_id) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            if (err) throw err;
-            insertData = [""];
-            try {
-                console.log("*** send back data ***");
-                console.log(data);
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    ); */
-    /* FIXME:FIXME:FIXME: */
-
-    res.sendFile(__dirname + "/views/alapanyagok.html");
-});
-/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
-//VERSION-2:
-
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 /* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 app.post("/inserttermekek", bodyParser.json(), (req, res) => {
@@ -307,7 +297,7 @@ app.get("/pult", loggerMiddleWare, (req, res) => {
 app.listen(port, () => console.log("server is OK 😋 ADMINPORT: " + port));
 //app.listen(7766, () => console.log("server is OK 😋 ADMINPORT: " + port));
 
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
 /* app.get("/datareadkiszereles", (req, res) => {
     con.query("SELECT * FROM kiszereles", (err, data) => {
@@ -318,7 +308,7 @@ app.listen(port, () => console.log("server is OK 😋 ADMINPORT: " + port));
 }); */
 /* HACK: /datareadkiszereles 😋😋😋😋😋😋 HACK:*/
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: /datareadcsoport 😋😋😋😋😋😋*/
 app.get("/datareadcsoport", (req, res) => {
     con.query("SELECT * FROM csoportok", (err, data) => {
@@ -327,7 +317,7 @@ app.get("/datareadcsoport", (req, res) => {
     });
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadkiszerelés 😋😋😋😋😋😋*/
 app.get("/datareadkiszereles", (req, res) => {
     con.query("SELECT * FROM kiszereles", (err, data) => {
@@ -336,7 +326,7 @@ app.get("/datareadkiszereles", (req, res) => {
     });
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadxkimeres 😋😋😋😋😋😋*/
 app.get("/datareadxkimeres", (req, res) => {
     con.query("SELECT * FROM xkimeres", (err, data) => {
@@ -345,7 +335,7 @@ app.get("/datareadxkimeres", (req, res) => {
     });
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadxkimeresnev 😋😋😋😋😋😋*/
 app.get("/datareadxkimeresnev", (req, res) => {
     con.query("SELECT * FROM xkimeresnev", (err, data) => {
@@ -354,7 +344,7 @@ app.get("/datareadxkimeresnev", (req, res) => {
     });
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: //datareadkevert 😋😋😋😋😋😋*/
 app.get("/datareadkevert", (req, res) => {
     con.query("SELECT * FROM kevert", (err, data) => {
@@ -363,32 +353,32 @@ app.get("/datareadkevert", (req, res) => {
     });
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: xkimeresnev */
 app.get("/xkimeresnev", (req, res) => {
     res.sendFile(__dirname + "/views/xkimeresnev.html");
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: kiszereles */
 app.get("/kiszereles", (req, res) => {
     res.sendFile(__dirname + "/views/kiszereles.html");
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: csoportok */
 app.get("/csoportok", (req, res) => {
     console.log("csoportok console OK");
     res.sendFile(__dirname + "/views/csoportok.html");
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: kevert */
 /* app.get("/kevert", (req, res) => {
     res.sendFile(__dirname + "/views/kevert.html");
 }); */
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: insertxkimeresnev  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
 app.post("/insertxkimeresnev", bodyParser.json(), (req, res) => {
     const insertData = [req.body.nev, req.body.urtartalom];
@@ -411,7 +401,7 @@ app.post("/insertxkimeresnev", bodyParser.json(), (req, res) => {
     res.sendFile(__dirname + "/views/xkimeresnev.html");
 });
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 app.patch("/updatexkimeresnev", bodyParser.json(), (req, res) => {
     var insertNev = [req.body.nev];
@@ -433,7 +423,7 @@ app.patch("/updatexkimeresnev", bodyParser.json(), (req, res) => {
 });
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
 app.post("/inserxkimeres", bodyParser.json(), (req, res) => {
     const insertData = [
@@ -460,7 +450,7 @@ app.post("/inserxkimeres", bodyParser.json(), (req, res) => {
 });
 /* NOTE: inserxkimeres  NOTE:NOTE:NOTE:NOTE:NOTE:NOTE:NOTE: */
 //VERSION-2:
-//VERSION-2:
+//VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: insertkiszereles  INFO:INFO:INFO:INFO:INFO:INFO:INFO: */
 app.post("/insertkiszereles", bodyParser.json(), (req, res) => {
     const insertData = [req.body.nev, req.body.urtartalom];

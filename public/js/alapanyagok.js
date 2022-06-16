@@ -1,5 +1,11 @@
 console.log("HELLO WORLD! alapanyagok console 😊");
+const state = {
+    alapanyagok: [],
+};
+getdata();
+
 var sendData = true;
+
 function newAlapanyag() {
     var nev = document.getElementById("nev").value;
     if (nev == "") {
@@ -14,7 +20,7 @@ function newAlapanyag() {
         alert("******* kitöltése kötelező!");
         sendData = false;
     }
-    var kiszereles = document.getElementById("kiszereles").value;
+    var kiszereles = parseFloat(document.getElementById("kiszereles").value);
     if (mertekegyseg == "darab") {
         kiszereles = 1;
         sendData = true;
@@ -44,6 +50,16 @@ function newAlapanyag() {
     //VERSION-2:
     if (sendData) {
         alert("SEND !!!");
+        insertMySQL(
+            nev,
+            mertekegyseg,
+            kiszereles,
+            leltarozando,
+            kritikus,
+            gyujto,
+            keszlet,
+            beszar
+        );
         sendData = true;
         document.getElementById("newAlapanyag").reset();
     }
@@ -54,4 +70,61 @@ function darabValue() {
         document.getElementById("kiszereles").value = 1;
         sendData = true;
     }
+}
+async function getdata() {
+    var response = await fetch("/datareadalapanyagok");
+    state.termekek = await response.json();
+    console.log(state.termekek);
+    //renderTermekek();
+    /* $(document).ready(function () {
+        productsButtonRender();
+    }); */
+}
+
+async function insertMySQL(
+    nev,
+    mertekegyseg,
+    kiszereles,
+    leltarozando,
+    kritikus,
+    gyujto,
+    keszlet,
+    beszar
+) {
+    //VERSION-2:
+    console.log("async function insertMySQL() console 😊");
+    console.log(nev);
+    console.log(mertekegyseg);
+    console.log(kiszereles);
+    console.log(leltarozando);
+    console.log(kritikus);
+    console.log(gyujto);
+    console.log(keszlet);
+    console.log(beszar);
+    //VERSION-2:
+    await fetch("/insertalapanyagok", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+            nev: nev,
+            mertekegyseg: mertekegyseg,
+            kiszereles: kiszereles,
+            leltarozando: leltarozando,
+            kritikus: kritikus,
+            gyujto: gyujto,
+            keszlet: keszlet,
+            beszar: beszar,
+        }),
+    });
+    /* xkimeresnevHTML += `<tr >
+                <td>${id}</td>
+                <td>${nev}</td>
+                <td>${urtartalom}</td>
+                </tr>
+                `;
+    id++;
+    xid++;
+    document.getElementById("xkimeresdata").innerHTML = xkimeresnevHTML; */
 }

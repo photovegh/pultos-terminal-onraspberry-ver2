@@ -24,8 +24,8 @@ async function getdata() {
                     console.log("************************************");
                 } */
             });
-            insertMySQL();
 
+            insertMySQL();
             async function insertMySQL() {
                 /* HACK:HACK:HACK: */
                 const nevInput = document.querySelector("#nev");
