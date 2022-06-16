@@ -5,6 +5,8 @@ const state = {
 };
 getdata();
 var sendData = true;
+var newData = true;
+var id = -1;
 
 function newAlapanyag() {
     var nev = document.getElementById("nev").value;
@@ -37,22 +39,55 @@ function newAlapanyag() {
     var gyujto = parseInt(document.getElementById("gyujto").value);
     var keszlet = parseInt(document.getElementById("keszlet").value);
     var beszar = parseInt(document.getElementById("beszar").value);
+    var keszletsum = keszlet * kiszereles;
 
     //VERSION-2:
     if (sendData) {
-        alert("SEND !!!");
-        insertMySQL(
-            nev,
-            mertekegyseg,
-            kiszereles,
-            leltarozando,
-            kritikus,
-            gyujto,
-            keszlet,
-            beszar
+        alert(
+            "SEND !!! -> newData: " + newData + " Nev: " + nev + " Id: " + id
         );
-        sendData = true;
-        document.getElementById("newAlapanyag").reset();
+        if (newData) {
+            insertMySQL(
+                nev,
+                mertekegyseg,
+                kiszereles,
+                leltarozando,
+                kritikus,
+                gyujto,
+                keszlet,
+                beszar,
+                keszletsum
+            );
+            sendData = true;
+            document.getElementById("newAlapanyag").reset();
+        } else {
+            console.log("A jo ored data update 😋");
+            console.log(id);
+            console.log(nev);
+            console.log(mertekegyseg);
+            console.log(kiszereles);
+            console.log(leltarozando);
+            console.log(kritikus);
+            console.log(gyujto);
+            console.log(keszlet);
+            console.log(beszar);
+            console.log(keszletsum);
+            updateMySQL(
+                id,
+                nev,
+                mertekegyseg,
+                kiszereles,
+                leltarozando,
+                kritikus,
+                gyujto,
+                keszlet,
+                beszar,
+                keszletsum
+            );
+            newData = true;
+            sendData = true;
+            document.getElementById("newAlapanyag").reset();
+        }
     }
     //VERSION-2:
 }
@@ -76,7 +111,8 @@ async function insertMySQL(
     kritikus,
     gyujto,
     keszlet,
-    beszar
+    beszar,
+    keszletsum
 ) {
     await fetch("/insertalapanyagok", {
         method: "POST",
@@ -92,11 +128,63 @@ async function insertMySQL(
             gyujto: gyujto,
             keszlet: keszlet,
             beszar: beszar,
+            keszletsum: keszletsum,
         }),
     });
     getdata();
     renderAlapanyagokData();
 }
+//VERSION-2:
+async function updateMySQL(
+    id,
+    nev,
+    mertekegyseg,
+    kiszereles,
+    leltarozando,
+    kritikus,
+    gyujto,
+    keszlet,
+    beszar,
+    keszletsum
+) {
+    //id = origId;
+
+    const response = await fetch("/updatealapanyagok/", {
+        method: "PATCH",
+        headers: {
+            "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+            id: id,
+            nev: nev,
+            mertekegyseg: mertekegyseg,
+            kiszereles: kiszereles,
+            leltarozando: leltarozando,
+            kritikus: kritikus,
+            gyujto: gyujto,
+            keszlet: keszlet,
+            beszar: beszar,
+            keszletsum: keszletsum,
+        }),
+    });
+    console.log(response);
+    /* let arrowIndex = -1;
+    for (let i = 0; i < state.termekek.length; i++) {
+        if (state.termekek[i].id == id) {
+            arrowIndex = i;
+        }
+    }
+    state.termekek[arrowIndex].nev = nev;
+    state.termekek[arrowIndex].beszar = beszar;
+    state.termekek[arrowIndex].elar = elar;
+    state.termekek[arrowIndex].leltarozando = leltarozando;
+    state.termekek[arrowIndex].kritikus = kritikus;
+    state.termekek[arrowIndex].gyujto = gyujto;
+    rendertermekek(); */
+    getdata();
+    renderAlapanyagokData();
+}
+//VERSION-2:
 function renderAlapanyagokData() {
     let index = 0;
     alapanyagokHTML = "";
@@ -112,10 +200,37 @@ function renderAlapanyagokData() {
         <td>${alapanyag.gyujto}</td>
         <td>${alapanyag.keszlet}</td>
         <td>${alapanyag.beszar}</td>
+        <td><button class="updateBtn" data-index=${index} id=${alapanyag.id}>Edit</td>
         </tr>
         `;
         index++;
-        console.log(index);
     }
     document.getElementById("alapanyagokData").innerHTML = alapanyagokHTML;
+    $(".updateBtn").click(function (e) {
+        let clickIndex = e.target.dataset.index;
+        id = this.id;
+        console.log("updateBtn is OK");
+        console.log(this.id);
+        console.log(clickIndex);
+        newData = false;
+        /* document.getElementById("id").value =
+            state.alapanyagok[clickIndex].id; */
+        document.getElementById("nev").value =
+            state.alapanyagok[clickIndex].nev;
+        document.getElementById("mertekegyseg").value =
+            state.alapanyagok[clickIndex].mertekegyseg;
+        document.getElementById("kiszereles").value =
+            state.alapanyagok[clickIndex].kiszereles;
+        document.getElementById("leltarozando").value =
+            state.alapanyagok[clickIndex].leltarozando;
+        document.getElementById("kritikus").value =
+            state.alapanyagok[clickIndex].kritikus;
+        document.getElementById("gyujto").value =
+            state.alapanyagok[clickIndex].gyujto;
+        document.getElementById("keszlet").value =
+            state.alapanyagok[clickIndex].keszlet;
+        document.getElementById("beszar").value =
+            state.alapanyagok[clickIndex].beszar;
+        document.getElementById("nev").focus();
+    });
 }

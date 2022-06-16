@@ -100,6 +100,7 @@ app.get("/datareadalapanyagok", (req, res) => {
 });
 // INFO: /alapanyagok DATA insert
 app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
+    //var keszletsum = [req.body.keszlet * req.body.kiszereles];
     var insertData = [
         req.body.nev,
         req.body.mertekegyseg,
@@ -109,11 +110,12 @@ app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
         req.body.gyujto,
         req.body.keszlet,
         req.body.beszar,
+        req.body.keszletsum,
     ];
     console.log("insertData");
     console.log(insertData);
     con.query(
-        "INSERT INTO alapanyagok (nev, mertekegyseg, kiszereles, leltarozando, kritikus, gyujto, keszlet,  beszar) VALUES (?)",
+        "INSERT INTO alapanyagok (nev, mertekegyseg, kiszereles, leltarozando, kritikus, gyujto, keszlet,  beszar, keszletsum) VALUES (?)",
         [insertData],
         (err, data) => {
             if (err) throw err;
@@ -125,8 +127,53 @@ app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
             }
         }
     );
-
     res.sendFile(__dirname + "/views/alapanyagok.html");
+});
+// INFO: /alapanyagok DATA update
+app.patch("/updatealapanyagok", bodyParser.json(), (req, res) => {
+    var nev = [req.body.nev];
+    var mertekegyseg = [req.body.mertekegyseg];
+    var kiszereles = [req.body.kiszereles];
+    var leltarozando = [req.body.leltarozando];
+    var kritikus = [req.body.kritikus];
+    var gyujto = [req.body.gyujto];
+    var keszlet = [req.body.keszlet];
+    var beszar = [req.body.beszar];
+    var keszletsum = [req.body.keszletsum];
+
+    var id = req.body.id;
+    console.log("id");
+    console.log(id);
+    console.log("nev");
+    console.log(nev);
+    console.log("kiszereles");
+    console.log(kiszereles);
+    console.log("keszlet");
+    console.log(keszlet);
+    console.log("keszletsum");
+    console.log(keszletsum);
+    con.query(
+        "UPDATE alapanyagok SET nev = ?, mertekegyseg = ?, kiszereles = ?, leltarozando = ?, kritikus = ?, gyujto = ?, keszlet = ?, beszar = ?, keszletsum = ? WHERE id = ?",
+        [
+            nev,
+            mertekegyseg,
+            kiszereles,
+            leltarozando,
+            kritikus,
+            gyujto,
+            keszlet,
+            beszar,
+            keszletsum,
+            id,
+        ],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
 });
 //VERSION-2://VERSION-2:
 

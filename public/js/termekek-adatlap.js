@@ -293,17 +293,17 @@ function rendertermekek() {
     //console.log(state.termekek[0].nev);
     for (let vTermekek of state.termekek) {
         termekekHTML += `<tr >
-                <td>${vTermekek.id}</td>
-                <td>${vTermekek.nev}</td>
-                <td>${vTermekek.beszar}</td>
-                <td>${vTermekek.elar}</td>
-                <td>${vTermekek.leltarozando}</td>
-                <td>${vTermekek.kritikus}</td>
-                <td>${vTermekek.gyujto}</td>
-                <td><button class="updateBtn" id=${vTermekek.id}>Edit</td>
-                </tr>
-
-     `;
+        <td>${vTermekek.id}</td>
+        <td>${vTermekek.nev}</td>
+        <td>${vTermekek.beszar}</td>
+        <td>${vTermekek.elar}</td>
+        <td>${vTermekek.leltarozando}</td>
+        <td>${vTermekek.kritikus}</td>
+        <td>${vTermekek.gyujto}</td>
+        <td><button class="updateBtn" id=${vTermekek.id}>Edit</td>
+        </tr>
+        
+        `;
         index++;
         xid = vTermekek.id; /* BUG: */
     }
