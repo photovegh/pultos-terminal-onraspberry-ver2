@@ -1,9 +1,9 @@
 console.log("HELLO WORLD! alapanyagok console 😊");
+var alapanyagokHTML = "";
 const state = {
     alapanyagok: [],
 };
 getdata();
-
 var sendData = true;
 
 function newAlapanyag() {
@@ -37,15 +37,6 @@ function newAlapanyag() {
     var gyujto = parseInt(document.getElementById("gyujto").value);
     var keszlet = parseInt(document.getElementById("keszlet").value);
     var beszar = parseInt(document.getElementById("beszar").value);
-    console.log("HELLO WORLD! alapanyagok FUNCTION console 😊");
-    console.log(nev);
-    console.log(mertekegyseg);
-    console.log(kiszereles);
-    console.log(leltarozando);
-    console.log(kritikus);
-    console.log(gyujto);
-    console.log(keszlet);
-    console.log(beszar);
 
     //VERSION-2:
     if (sendData) {
@@ -73,14 +64,10 @@ function darabValue() {
 }
 async function getdata() {
     var response = await fetch("/datareadalapanyagok");
-    state.termekek = await response.json();
-    console.log(state.termekek);
-    //renderTermekek();
-    /* $(document).ready(function () {
-        productsButtonRender();
-    }); */
+    state.alapanyagok = await response.json();
+    console.log(state.alapanyagok);
+    renderAlapanyagokData();
 }
-
 async function insertMySQL(
     nev,
     mertekegyseg,
@@ -91,17 +78,6 @@ async function insertMySQL(
     keszlet,
     beszar
 ) {
-    //VERSION-2:
-    console.log("async function insertMySQL() console 😊");
-    console.log(nev);
-    console.log(mertekegyseg);
-    console.log(kiszereles);
-    console.log(leltarozando);
-    console.log(kritikus);
-    console.log(gyujto);
-    console.log(keszlet);
-    console.log(beszar);
-    //VERSION-2:
     await fetch("/insertalapanyagok", {
         method: "POST",
         headers: {
@@ -118,13 +94,28 @@ async function insertMySQL(
             beszar: beszar,
         }),
     });
-    /* xkimeresnevHTML += `<tr >
-                <td>${id}</td>
-                <td>${nev}</td>
-                <td>${urtartalom}</td>
-                </tr>
-                `;
-    id++;
-    xid++;
-    document.getElementById("xkimeresdata").innerHTML = xkimeresnevHTML; */
+    getdata();
+    renderAlapanyagokData();
+}
+function renderAlapanyagokData() {
+    let index = 0;
+    alapanyagokHTML = "";
+    for (alapanyag of state.alapanyagok) {
+        alapanyagokHTML += `<tr >
+        <td>${index}</td>
+        <td>${alapanyag.id}</td>
+        <td>${alapanyag.nev}</td>
+        <td>${alapanyag.mertekegyseg}</td>
+        <td>${alapanyag.kiszereles}</td>
+        <td>${alapanyag.leltarozando}</td>
+        <td>${alapanyag.kritikus}</td>
+        <td>${alapanyag.gyujto}</td>
+        <td>${alapanyag.keszlet}</td>
+        <td>${alapanyag.beszar}</td>
+        </tr>
+        `;
+        index++;
+        console.log(index);
+    }
+    document.getElementById("alapanyagokData").innerHTML = alapanyagokHTML;
 }

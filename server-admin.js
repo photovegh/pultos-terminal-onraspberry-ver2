@@ -100,9 +100,6 @@ app.get("/datareadalapanyagok", (req, res) => {
 });
 // INFO: /alapanyagok DATA insert
 app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
-    console.log("req.body.nev");
-    console.log(req.body.nev);
-    console.log("-------------");
     var insertData = [
         req.body.nev,
         req.body.mertekegyseg,
@@ -122,8 +119,6 @@ app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
             if (err) throw err;
             insertData = [""];
             try {
-                console.log("*** send back data ***");
-                console.log(data);
                 res.send(data);
             } catch {
                 if (err) throw err;
