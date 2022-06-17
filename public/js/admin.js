@@ -1,5 +1,23 @@
+var szukit = "";
+if (localStorage.getItem("keresValue")) {
+    var keresValue = localStorage.getItem("keresValue");
+    document.querySelector("#nevSzukit").value = keresValue;
+    console.log("true");
+    console.log(keresValue);
+    console.log(document.querySelector("#nevSzukit").value);
+} else {
+    localStorage.setItem("keresValue", "");
+    var keresValue = localStorage.getItem("keresValue");
+    document.querySelector("#nevSzukit").value = keresValue;
+    console.log("false");
+}
+//var keresValue = "";
+//var keresValue = localStorage.getItem("keresValue");
+//console.log("keresValue");
+//console.log(keresValue);
+
 const state = {
-    termekek: [],
+    alapanyagok: [],
 };
 var productsAreaHTML = "";
 getdata();
@@ -11,16 +29,17 @@ var valtoztatas = 0;
 var idSend = 0;
 var cl = 0;
 var sumcl = 0;
-document.getElementById("nevSzukit").value = "";
-var szukit = document.getElementById("nevSzukit").value;
-var keresValue = "";
+//document.getElementById("nevSzukit").value = "";
+szukit = document.getElementById("nevSzukit").value;
 
+document.querySelector("#nevSzukit").value = keresValue;
 document.addEventListener("keypress", function (e) {
     console.log(e.keyCode);
     if (e.keyCode === 13 || e.which === 13) {
         e.preventDefault();
         keresValue = document.querySelector("#nevSzukit").value;
-        renderTermekek();
+        localStorage.setItem("keresValue", keresValue);
+        renderAlapanyagok();
         productsButtonRender();
         return false;
     }
@@ -28,22 +47,24 @@ document.addEventListener("keypress", function (e) {
 
 const szukitBtn = document.querySelector("#szukit-btn");
 szukitBtn.onclick = function () {
+    //document.querySelector("#nevSzukit").value = keresValue;
     keresValue = document.querySelector("#nevSzukit").value;
-    renderTermekek();
+    //localStorage.setItem("keresValue", keresValue);
+    renderAlapanyagok();
     productsButtonRender();
 };
 
 function productsButtonRender() {
     $(".productsButton").click(function (e) {
         if (e.target.nodeName == "BUTTON") {
-            for (product of state.termekek) {
+            for (product of state.alapanyagok) {
                 if (product.id == this.id) {
                     nev = product.nev;
                     keszlet = product.keszlet;
-                    kiszerelesId = product.kiszereles_id;
+                    kiszereles = product.kiszereles;
                     idSend = this.id;
-                    cl = product.cl;
-                    sumcl = product.sumcl;
+                    //cl = product.cl;
+                    keszletsum = product.keszletsum;
                 }
             }
             addStockQuantity(idSend, nev, keszlet);
@@ -52,10 +73,10 @@ function productsButtonRender() {
 }
 
 async function getdata() {
-    var response = await fetch("/datareadtermekek");
-    state.termekek = await response.json();
+    var response = await fetch("/datareadalapanyagok");
+    state.alapanyagok = await response.json();
 
-    renderTermekek();
+    renderAlapanyagok();
 
     $(document).ready(function () {
         productsButtonRender();
@@ -68,9 +89,9 @@ function addStockQuantity(idSend, nev, keszlet) {
     document.getElementById("addStockQuantityKeszlet").innerHTML = keszlet;
 }
 
-function renderTermekek() {
+function renderAlapanyagok() {
     productsAreaHTML = "";
-    for (product of state.termekek) {
+    for (product of state.alapanyagok) {
         if (product.nev.toLowerCase().search(keresValue.toLowerCase()) >= 0) {
             productsAreaHTML += `<button type="button" class="btn btn-primary m-2 p-2 productsButton" id=${product.id} data-nev=${product.nev}>${product.nev} - ${product.id}</button>`;
         }
@@ -96,25 +117,26 @@ function keszletValtozas() {
         } catch (e) {}
         async function updateMySQL(valtoztatas) {
             let origId = idSend;
-            keszlet = parseInt(keszlet) + valtoztatas;
-            if (kiszerelesId == 2) {
+            keszlet = parseFloat(keszlet) + valtoztatas;
+            keszletsum = parseFloat(keszletsum) + valtoztatas * kiszereles;
+            /* if (kiszerelesId == 2) {
                 cl = parseInt(cl);
                 sumcl = parseInt(sumcl) + valtoztatas * cl;
             } else {
                 cl = cl;
                 sumcl = parseInt(sumcl) + valtoztatas;
-            }
+            } */
 
             //INFO:
-            for (productNew of state.termekek) {
+            for (productNew of state.alapanyagok) {
                 if ((productNew.id = origId)) {
                     productNew.keszlet = keszlet;
-                    productNew.cl = cl;
-                    productNew.sumcl = sumcl;
+                    //productNew.cl = cl;
+                    productNew.keszletsum = keszletsum;
                 }
             }
 
-            const response = await fetch("/updatetermekekbeszerzes/", {
+            const response = await fetch("/updatealapanyagbeszerzes/", {
                 method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
@@ -122,8 +144,7 @@ function keszletValtozas() {
                 body: JSON.stringify({
                     id: idSend,
                     keszlet: keszlet,
-                    cl: cl,
-                    sumcl: sumcl,
+                    keszletsum: keszletsum,
                 }),
             });
             console.log(response);

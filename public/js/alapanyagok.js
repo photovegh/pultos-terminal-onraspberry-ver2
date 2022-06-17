@@ -15,37 +15,39 @@ document.addEventListener("keypress", function (e) {
         e.preventDefault();
         keresValue = document.querySelector("#nevSzukit").value;
         renderAlapanyagokData();
-        //productsButtonRender();
         return false;
     }
 });
 
 function newAlapanyag() {
     var nev = document.getElementById("nev").value;
+    var mertekegyseg = document.getElementById("mertekegyseg").value;
+    if (mertekegyseg == "darab") {
+        document.getElementById("kiszereles").value = 1;
+    }
+    var kiszereles = document.getElementById("kiszereles").value;
+    if (mertekegyseg == "darab") {
+        kiszereles = 1;
+        sendData = true;
+    }
+    if (kiszereles !== "") {
+        sendData = true;
+    }
+    console.log("kiszereles");
+    console.log(kiszereles);
     if (nev == "") {
         alert("NÉV kitöltése kötelező!");
         sendData = false;
     }
-    var mertekegyseg = document.getElementById("mertekegyseg").value;
-    if (mertekegyseg == "darab") {
-        document.getElementById("kiszereles").value = 1;
+    if (kiszereles == "") {
+        alert("KISZERELÉS kitöltése kötelező! NAMOST A JOOOOO");
+        sendData = false;
     }
     if (mertekegyseg == "") {
         alert("******* kitöltése kötelező!");
         sendData = false;
     }
-    var kiszereles = parseFloat(document.getElementById("kiszereles").value);
-    if (mertekegyseg == "darab") {
-        kiszereles = 1;
-        sendData = true;
-    }
-    if (kiszereles == "") {
-        alert("KISZERELÉS kitöltése kötelező!");
-        sendData = false;
-    }
-    if (kiszereles !== "") {
-        sendData = true;
-    }
+    kiszereles = parseFloat(kiszereles);
     var leltarozando = parseInt(document.getElementById("leltarozando").value);
     var kritikus = parseInt(document.getElementById("kritikus").value);
     var gyujto = parseInt(document.getElementById("gyujto").value);
@@ -254,5 +256,4 @@ const szukitBtn = document.querySelector("#szukit-btn");
 szukitBtn.onclick = function () {
     keresValue = document.querySelector("#nevSzukit").value;
     renderAlapanyagokData();
-    //productsButtonRender();
 };

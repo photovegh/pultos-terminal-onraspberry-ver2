@@ -175,6 +175,27 @@ app.patch("/updatealapanyagok", bodyParser.json(), (req, res) => {
         }
     );
 });
+// INFO: /updatealapanyagbeszerzes DATA update
+app.patch("/updatealapanyagbeszerzes", bodyParser.json(), (req, res) => {
+    var id = req.body.id;
+    var keszlet = [req.body.keszlet];
+    var keszletsum = [req.body.keszletsum];
+    console.log("keszlet id keszletsum");
+    console.log(id);
+    console.log(keszlet);
+    console.log(keszletsum);
+    con.query(
+        "UPDATE alapanyagok SET keszlet = ?, keszletsum = ? WHERE id = ?",
+        [keszlet, keszletsum, id],
+        (err, data) => {
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+});
 //VERSION-2://VERSION-2:
 
 /* INFO: /datareadforgalom 😋😋😋😋😋😋*/
