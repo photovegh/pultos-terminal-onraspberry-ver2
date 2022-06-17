@@ -7,6 +7,18 @@ getdata();
 var sendData = true;
 var newData = true;
 var id = -1;
+var keresValue = "";
+
+document.addEventListener("keypress", function (e) {
+    console.log(e.keyCode);
+    if (e.keyCode === 13 || e.which === 13) {
+        e.preventDefault();
+        keresValue = document.querySelector("#nevSzukit").value;
+        renderAlapanyagokData();
+        //productsButtonRender();
+        return false;
+    }
+});
 
 function newAlapanyag() {
     var nev = document.getElementById("nev").value;
@@ -189,7 +201,9 @@ function renderAlapanyagokData() {
     let index = 0;
     alapanyagokHTML = "";
     for (alapanyag of state.alapanyagok) {
-        alapanyagokHTML += `<tr >
+        if (alapanyag.nev.toLowerCase().search(keresValue.toLowerCase()) >= 0) {
+            /* productsAreaHTML += `<button type="button" class="btn btn-primary m-2 p-2 productsButton" id=${alapanyag.id} data-nev=${alapanyag.nev}>${alapanyag.nev} - ${alapanyag.id}</button>`; */
+            alapanyagokHTML += `<tr >
         <td>${index}</td>
         <td>${alapanyag.id}</td>
         <td>${alapanyag.nev}</td>
@@ -203,6 +217,8 @@ function renderAlapanyagokData() {
         <td><button class="updateBtn" data-index=${index} id=${alapanyag.id}>Edit</td>
         </tr>
         `;
+        }
+
         index++;
     }
     document.getElementById("alapanyagokData").innerHTML = alapanyagokHTML;
@@ -234,3 +250,9 @@ function renderAlapanyagokData() {
         document.getElementById("nev").focus();
     });
 }
+const szukitBtn = document.querySelector("#szukit-btn");
+szukitBtn.onclick = function () {
+    keresValue = document.querySelector("#nevSzukit").value;
+    renderAlapanyagokData();
+    //productsButtonRender();
+};

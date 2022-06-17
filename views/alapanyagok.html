@@ -139,7 +139,42 @@
     <!-- VERSION-2: -->
 
     <div class="container-fluid text-center">
-        <!-- <div>
+        <div class="font-weight-bold m-2 p-2">
+            Termékek szűkítése: <input type="text" name="nevSzukit" id="nevSzukit">
+            <button type="button" class="btn btn-success" id="szukit-btn">Szűrés</button>
+        </div>
+
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ix</th>
+                    <th>Id</th>
+                    <th>Neve</th>
+                    <th>Mértékegység</th>
+                    <th>Kiszerelés</th>
+                    <th>Leltározandó</th>
+                    <th>Kritikus mennyiség</th>
+                    <th>Gyüjtő</th>
+                    <th>Készlet</th>
+                    <th>Beszerzési ár</th>
+                </tr>
+            </thead>
+            <tbody id="alapanyagokData">
+            </tbody>
+        </table>
+        <div id="adatok"></div>
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+    </div>
+
+    <script src="jquery.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="alapanyagok.js"></script>
+</body>
+
+</html>
+<!-- <div>
             <form class="form-horizontal" action="/insertalapanyagok" method="post">
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -181,34 +216,3 @@
                 <button type="submit" class="btn btn-primary  mr-4">Uj alapanyeg felvitele</button>
             </form><br>
         </div> -->
-
-        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ix</th>
-                    <th>Id</th>
-                    <th>Neve</th>
-                    <th>Mértékegység</th>
-                    <th>Kiszerelés</th>
-                    <th>Leltározandó</th>
-                    <th>Kritikus mennyiség</th>
-                    <th>Gyüjtő</th>
-                    <th>Készlet</th>
-                    <th>Beszerzési ár</th>
-                </tr>
-            </thead>
-            <tbody id="alapanyagokData">
-            </tbody>
-        </table>
-        <div id="adatok"></div>
-        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
-    </div>
-
-    <script src="jquery.slim.min.js"></script>
-    <script src="popper.min.js"></script>
-    <script src="bootstrap.bundle.min.js"></script>
-    <script src="alapanyagok.js"></script>
-</body>
-
-</html>
