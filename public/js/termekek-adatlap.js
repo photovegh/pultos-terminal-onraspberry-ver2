@@ -412,7 +412,7 @@ function renderOsszetevok() {
             console.log(origNev);
             console.log("osszetevoAlapanyagId");
             console.log(osszetevoAlapanyagId);
-            //insertOsszetevokMySQL();
+            insertOsszetevokMySQL();
             //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
             async function insertOsszetevokMySQL() {
                 termek_id = origId;
