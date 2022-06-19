@@ -25,18 +25,28 @@ var productsHTML = "";
 var productsHTMLdrop = "";
 var xid = 1;
 var newBtncolor = -1;
+var origNev = "";
+var origElar = 0;
+var origBtncolor = -1;
+var origId = 0;
+var osszetevoAlapanyagId = -1;
+var osszetevoFelhasznaltMennyiseg = -1;
 
 getdata();
 
 /* INFO: adatok bekérése START INFO: */
 async function getdata() {
-    /* NOTE: get termekek HACK:HACK: */
-    var response = await fetch("/datareadtermekek");
-    state.termekek = await response.json();
+    /* NOTE: get datareadalapanyagok HACK:HACK: */
+    var response = await fetch("/datareadalapanyagok");
+    state.alapanyagok = await response.json();
 
     /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
     var response = await fetch("/datareadtermekek");
     state.termekek = await response.json();
+
+    /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
+    var response = await fetch("/datareadosszetevok");
+    state.osszetevok = await response.json();
 
     rendertermekek();
 
@@ -282,27 +292,25 @@ function rendertermekek() {
                 arrowIndex = i;
             }
         }
-        var origNev = state.termekek[arrowIndex].nev;
-        var origElar = state.termekek[arrowIndex].elar;
+        origNev = state.termekek[arrowIndex].nev;
+        origElar = state.termekek[arrowIndex].elar;
         var origBtncolor = state.termekek[arrowIndex].btncolor;
+        newBtncolor = origBtncolor;
         origId = state.termekek[arrowIndex].id;
         $("#myModal").modal();
         document.getElementById("newNev").value = origNev;
         document.getElementById("newElar").value = origElar;
-        //VERSION-2:
         renderBtnColor(origBtncolor);
+        renderOsszetevok();
+        console.log("osszetevoAlapanyagId");
+        console.log(osszetevoAlapanyagId);
+        //VERSION-2:
+
+        //VERSION-2:
         const colorBtn = document.querySelector("#btnColorForm");
         colorBtn.onchange = function () {
-            console.log("😋😋😋😋😋");
-            console.log("origBtncolor");
-            console.log(origBtncolor);
             var x = document.getElementById("btnColorForm").value;
-            console.log("x");
-            console.log(x);
-            newBtnColor = parseInt(selectColor.findIndex(checkColor));
-            console.log(selectColor.findIndex(checkColor));
-            console.log(newBtnColor);
-            newBtncolor = newBtnColor;
+            newBtncolor = parseInt(selectColor.findIndex(checkColor));
             function checkColor(colorArrayNumber) {
                 return colorArrayNumber == x;
             }
@@ -310,6 +318,133 @@ function rendertermekek() {
     });
 }
 //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+function renderOsszetevok() {
+    osszetevokHTML = ``;
+
+    /* osszetevokHTML += `${origId} : ${origNev}`; */
+    osszetevokHTML += `<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Alapag</th>
+            <th>Neve</th>
+            <th>Kiszerelés jelleg</th>
+            <th>Kiszerelés</th>
+            <th>Felhasznált mennyiség</th>
+        </tr>
+    </thead>
+    <tbody>`;
+    for (osszetevo of state.osszetevok) {
+        if (origId == osszetevo.termek_id) {
+            /* osszetevokHTML += `${osszetevo.alapanyag_id}`; */
+            for (alapanyag of state.alapanyagok) {
+                if (alapanyag.id == osszetevo.alapanyag_id) {
+                    osszetevokHTML += `
+                    <tr>
+                    <td id="otid">${osszetevo.id}</td>
+                    <td id="otid">${alapanyag.id}</td>
+                    <td id="otnev">${alapanyag.nev}</td>
+                    <td id="otjelleg">${alapanyag.mertekegyseg}</td>
+                    <td id="otkiszereles">${alapanyag.kiszereles}</td>
+                    <td id="otfelhasznalt">${osszetevo.felhasznaltmennyiseg}</td>
+                    <td><button class="btn btn-danger deleteBtn" id=${osszetevo.id}>DELETE</td>
+                    </tr>`;
+                }
+            }
+        }
+    }
+    osszetevokHTML += `</tbody></table><button type="button" class="btn btn-info " id="addOsszetevo">+</button>`;
+    document.getElementById("osszetevok").innerHTML = osszetevokHTML;
+
+    $(".deleteBtn").click(function () {
+        console.log("DELETE ***** osszetevo.id");
+        console.log(this.id);
+        id = this.id;
+        deleteOsszetevokMySQL();
+        //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+        async function deleteOsszetevokMySQL() {
+            console.log("DELETE ***** id");
+            console.log(id);
+            /* INFO: deleteosszetevo  INFO: INFO: INFO: INFO:*/
+            var response = await fetch("/deleteosszetevo/" + id, {
+                method: "DELETE",
+                /*   headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    osszetevoid: termek_id,
+                    alapanyag_id: alapanyag_id,
+                    felhasznaltmennyiseg: felhasznaltmennyiseg,
+                }) */
+            });
+            console.log(response);
+            /* console.log("state.osszetevok");
+            console.log(state.osszetevok);
+            getdata();
+            renderOsszetevok();
+            console.log("state.osszetevok");
+            console.log(state.osszetevok); */
+            /* INFO: insertosszetevok  INFO: INFO: INFO: INFO: */
+        }
+        //VERSION-2:
+    });
+
+    $("#addOsszetevo").click(function () {
+        $("#myModalAdd").modal();
+        selectOsszetevokHTML = "";
+        let index = 0;
+        for (alapanyag of state.alapanyagok) {
+            selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" id=${alapanyag.id}>${alapanyag.nev}</button>`;
+            index++;
+        }
+        document.getElementById("selectOsszetevo").innerHTML =
+            selectOsszetevokHTML;
+
+        $(".selected").click(function () {
+            osszetevoAlapanyagId = this.id;
+            console.log("this.id-------------------------");
+            console.log(osszetevoAlapanyagId);
+            //$("#myModalAdd .close").click();
+            console.log("this.id------SZAL-------------");
+            console.log("origId");
+            console.log(origId);
+            console.log("origNev");
+            console.log(origNev);
+            console.log("osszetevoAlapanyagId");
+            console.log(osszetevoAlapanyagId);
+            //insertOsszetevokMySQL();
+            //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+            async function insertOsszetevokMySQL() {
+                termek_id = origId;
+                alapanyag_id = osszetevoAlapanyagId;
+                felhasznaltmennyiseg = 0.25;
+
+                /* INFO: insertosszetevok  INFO: INFO: INFO: INFO:*/
+                await fetch("/insertosszetevok/", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        termek_id: termek_id,
+                        alapanyag_id: alapanyag_id,
+                        felhasznaltmennyiseg: felhasznaltmennyiseg,
+                    }),
+                });
+                /* console.log("state.osszetevok");
+                console.log(state.osszetevok);
+                getdata();
+                renderOsszetevok();
+                console.log("state.osszetevok");
+                console.log(state.osszetevok); */
+                /* INFO: insertosszetevok  INFO: INFO: INFO: INFO: */
+            }
+            //VERSION-2:
+        });
+        /* getdata();
+        renderOsszetevok(); */
+    });
+}
 function renderBtnColor(origBtncolor) {
     document.getElementById(
         "selectCategoryColor"
@@ -374,7 +509,6 @@ function updatetermekek() {
                 btncolor: btncolor,
             }),
         });
-        console.log(response);
         let arrowIndex = -1;
         for (let i = 0; i < state.termekek.length; i++) {
             if (state.termekek[i].id == id) {
@@ -390,9 +524,9 @@ function updatetermekek() {
 //VERSION-2:
 function addAlapanyag() {
     console.log("alapanyag plus");
-    $("#myModalAdd").modal();
+    /* $("#myModalAdd").modal();
     document.getElementById("newNev").value = "";
-    document.getElementById("newElar").value = "";
+    document.getElementById("newElar").value = ""; */
     //VERSION-2://VERSION-2:
 }
 //VERSION-2:

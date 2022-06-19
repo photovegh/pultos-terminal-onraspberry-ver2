@@ -127,15 +127,13 @@
                                 <input type="number" id="newElar" name="newElar" style="width: 7em">
                             </td>
                             <td id="selectCategoryColor">
-                                <!-- <select id="btnColorForm" name="btnColorForm" form="btnColorForm">
-                                    <option value="i">i</option>
-                                    <option value="n">n</option>
-                                </select> -->
                             </td>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
-                        hozzáadása</button>
+                    <div id="osszetevok"></div>
+                    <!-- //VERSION-2://VERSION-2://VERSION-2: -->
+                    <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
+                        hozzáadása</button> -->
                     <!-- <button type="button" class="btn btn-danger " data-dismiss="modal"
                         onclick="updatetermekek()">Összetevő törlése</button> -->
                 </div>
@@ -151,46 +149,47 @@
     <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
     <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
     <!-- The Modal -->
-    <!-- <div class="modal" id="myModalAdd">
+    <div class="modal" id="myModalAdd">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
- -->
-    <!-- Modal Header -->
-    <!-- <div class="modal-header bg-info text-white">
-                    <h4 class="modal-title">Uj termék</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div> -->
 
-    <!-- Modal body -->
-    <!-- <div class="modal-body">
-                    <table class="table table-striped">
+                <!-- Modal Header -->
+                <div class="modal-header bg-secondary text-white">
+                    <h4 class="modal-title">Válaszd ki az összetevőt!</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div id="selectOsszetevo"></div>
+                    <!-- <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Neve</th>
-                                <th>Eladási ár</th>
-                                <th>Színválasztó</th>
+                                <th>Kiszerelés jelleg</th>
+                                <th>Kiszerelés</th>
+                                <th>Felhasznált mennyiség</th>
                             </tr>
                         </thead>
-                        <tbody id="termekModosit">
+                        <tbody>
+                            <td id="otnev"></td>
+                            <td id="otkiszereles"></td>
                             <td>
-                                <input type="text" id="newNev" name="newNev">
-                            </td>
-                            <td>
-                                <input type="number" id="newElar" name="newElar" style="width: 7em">
+                                <input type="number" id="otfelhasznalt" name="otfelhasznalt" style="width: 5em">
                             </td>
                         </tbody>
-                    </table>
-                    <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
-                        hozzáadása</button>
-                </div> -->
+                    </table> -->
+                    <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
+                        hozzáadása</button> -->
+                </div>
 
-    <!-- Modal footer -->
-    <!-- <div class="modal-footer bg-info text-white">
+                <!-- Modal footer -->
+                <!-- <div class="modal-footer bg-info text-white">
                     <button type="button" class="btn btn-danger " data-dismiss="modal" onclick="updatetermekek()">Mentem
                         !!!</button>
                 </div> -->
-    </div>
-    </div>
+            </div>
+        </div>
     </div>
     <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
     <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->

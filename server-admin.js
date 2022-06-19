@@ -102,6 +102,26 @@ app.get("/datareadalapanyagok", (req, res) => {
         res.send(data);
     });
 });
+// INFO: /deleteosszetevo DATA
+app.delete("/deleteosszetevo/:id", bodyParser.json(), (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    con.query(
+        "DELETE FROM termekek_has_alapanyagok WHERE id = ?",
+        id,
+        (err, data) => {
+            if (err) throw err;
+            res.send(data);
+        }
+    );
+});
+// INFO: /osszetevok DATA
+app.get("/datareadosszetevok", (req, res) => {
+    con.query("SELECT * FROM termekek_has_alapanyagok", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+});
 // INFO: /alapanyagok DATA insert
 app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
     //var keszletsum = [req.body.keszlet * req.body.kiszereles];
@@ -132,6 +152,31 @@ app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
         }
     );
     res.sendFile(__dirname + "/views/alapanyagok.html");
+});
+// INFO: /insertosszetevok DATA insert
+app.post("/insertosszetevok", bodyParser.json(), (req, res) => {
+    //var keszletsum = [req.body.keszlet * req.body.kiszereles];
+    var insertData = [
+        req.body.termek_id,
+        req.body.alapanyag_id,
+        req.body.felhasznaltmennyiseg,
+    ];
+    console.log("insertData");
+    console.log(insertData);
+    con.query(
+        "INSERT INTO termekek_has_alapanyagok (termek_id, alapanyag_id, felhasznaltmennyiseg) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            insertData = [""];
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    res.sendFile(__dirname + "/views/termekek-adatlap.html");
 });
 // INFO: /alapanyagok DATA update
 app.patch("/updatealapanyagok", bodyParser.json(), (req, res) => {
