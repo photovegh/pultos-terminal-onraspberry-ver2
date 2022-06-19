@@ -1,16 +1,29 @@
-var lastTransaction = -1;
+/* var lastTransaction = -1;
 var termekKiszereles = 9;
-var csoportKiszereles = 5;
+var csoportKiszereles = 5; */
 // NOTE: Ez definiálja a bekért adatbázis ojektum tömbjét 😎
 const state = {
-    /* keszlet: [], HACK:HACK:*/
-    csoportkategoria: [],
-    xkimeres: [],
-    lastTransaction: [],
-    xkimeresnev: [],
-    kiszereles: [],
     termekek: [],
+    alapanyagok: [],
 };
+const selectColor = [
+    "primary",
+    "secondary",
+    "success",
+    "warning",
+    "danger",
+    "dark",
+    "light",
+];
+const selectName = [
+    "KÉK",
+    "SZÜRKE",
+    "ZÖLD",
+    "SÁRGA",
+    "PIROS",
+    "FEKETE",
+    "FEHÉR",
+];
 // NOTE: Ezek kellenek a forgalom //okhoz
 //const arrayPultNev = [];
 //const arrayPultElar = [];
@@ -20,42 +33,42 @@ var xid = 1;
 
 getdata();
 
-/* INFO: termék //ok bekérése START INFO: */
+/* INFO: adatok bekérése START INFO: */
 async function getdata() {
     /* NOTE: get last-transaction */
-    var response = await fetch("/lasttransaction");
-    state.lastTransaction = await response.json();
+    /* var response = await fetch("/lasttransaction");
+    state.lastTransaction = await response.json(); */
 
-    /* NOTE: get keszlet HACK:HACK: */
-    /* var response = await fetch("/dataread");
-    state.keszlet = await response.json();
- */
+    /* NOTE: get termekek HACK:HACK: */
+    var response = await fetch("/datareadtermekek");
+    state.termekek = await response.json();
+
     /* NOTE: get kiszereles */
-    var response = await fetch("/datareadkiszereles");
-    state.kiszereles = await response.json();
+    /* var response = await fetch("/datareadkiszereles");
+    state.kiszereles = await response.json(); */
 
     /* NOTE: get csoport */
-    var response = await fetch("/datareadcsoport");
-    state.csoportkategoria = await response.json();
+    /* var response = await fetch("/datareadcsoport");
+    state.csoportkategoria = await response.json(); */
 
     /* NOTE: get xkimeres INFO: INFO: INFO:*/
-    var response = await fetch("/datareadxkimeres");
-    state.xkimeres = await response.json();
+    /* var response = await fetch("/datareadxkimeres");
+    state.xkimeres = await response.json(); */
 
     /* NOTE: get xkimeresnev INFO: INFO: INFO:*/
-    var response = await fetch("/datareadxkimeresnev");
-    state.xkimeresnev = await response.json();
+    /* var response = await fetch("/datareadxkimeresnev");
+    state.xkimeresnev = await response.json(); */
 
     /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
     var response = await fetch("/datareadtermekek");
     state.termekek = await response.json();
 
-    async function getdataonlytermekek() {
-        /* NOTE: get datareadtermekek INFO:*/
-        var response = await fetch("/datareadtermekek");
-        state.termekek = await response.json();
-        // BUG: esetleg rendertermekek() BUG:
-    }
+    //async function getdataonlytermekek() {
+    /* NOTE: get datareadtermekek INFO:*/
+    //    var response = await fetch("/datareadtermekek");
+    //    state.termekek = await response.json();
+    // BUG: esetleg rendertermekek() BUG:
+    //}
 
     rendertermekek();
     /* HACK: */
@@ -287,25 +300,25 @@ async function getdata() {
     console.log(nev);
 } */
 
+//VERSION-2:
 function rendertermekek() {
     let index = 0;
     termekekHTML = "";
-    //console.log(state.termekek[0].nev);
-    for (let vTermekek of state.termekek) {
+    for (let termek of state.termekek) {
         termekekHTML += `<tr >
-        <td>${vTermekek.id}</td>
-        <td>${vTermekek.nev}</td>
-        <td>${vTermekek.beszar}</td>
-        <td>${vTermekek.elar}</td>
-        <td>${vTermekek.leltarozando}</td>
-        <td>${vTermekek.kritikus}</td>
-        <td>${vTermekek.gyujto}</td>
-        <td><button class="updateBtn" id=${vTermekek.id}>Edit</td>
+        <td>${termek.id}</td>
+        <td>${termek.nev}</td>
+        <td>${termek.elar}</td>
+        <td><button type="button" class="btn btn-${
+            selectColor[termek.btncolor]
+        }" style = "width: 8em">${selectName[termek.btncolor]}</button></td>
+        
+        <td><button class="updateBtn" id=${termek.id}>Edit</td>
         </tr>
         
         `;
         index++;
-        xid = vTermekek.id; /* BUG: */
+        xid = termek.id; /* BUG: */
     }
     document.getElementById("termekek").innerHTML = termekekHTML;
 
@@ -316,26 +329,78 @@ function rendertermekek() {
                 arrowIndex = i;
             }
         }
-        /* INFO:HACK:HACK:HACK: */
         var origNev = state.termekek[arrowIndex].nev;
-        var origBeszar = state.termekek[arrowIndex].beszar;
+        //var origBeszar = state.termekek[arrowIndex].beszar;
         var origElar = state.termekek[arrowIndex].elar;
-        var origLeltarozando = state.termekek[arrowIndex].leltarozando;
-        var origKritikus = state.termekek[arrowIndex].kritikus;
-        var origGyujto = state.termekek[arrowIndex].gyujto;
-        /* HACK:HACK:HACK:INFO: */
+        var origBtncolor = state.termekek[arrowIndex].btncolor;
+        //var origKritikus = state.termekek[arrowIndex].kritikus;
+        //var origGyujto = state.termekek[arrowIndex].gyujto;
         origId = state.termekek[arrowIndex].id;
         $("#myModal").modal();
-        /* INFO:HACK:HACK:HACK: */
         document.getElementById("newNev").value = origNev;
-        document.getElementById("newBeszar").value = origBeszar;
+        //document.getElementById("newBeszar").value = origBeszar;
         document.getElementById("newElar").value = origElar;
-        document.getElementById("newLeltarozando").value = origLeltarozando;
-        document.getElementById("newKritikus").value = origKritikus;
-        document.getElementById("newGyujto").value = origGyujto;
-        /* HACK:HACK:HACK:INFO: */
+        //VERSION-2:
+        tuzolto(origBtncolor);
+        //document.getElementById("newLeltarozando").value = origLeltarozando;
+
+        const colorBtn = document.querySelector("#btnColorForm");
+        colorBtn.onchange = function () {
+            console.log("😋😋😋😋😋");
+            console.log("origBtncolor");
+            console.log(origBtncolor);
+            var x = document.getElementById("btnColorForm").value;
+            console.log("x");
+            console.log(x);
+            console.log(selectColor.findIndex(checkColor));
+            function checkColor(colorArrayNumber) {
+                return colorArrayNumber == x;
+            }
+        };
+        //document.getElementById("newKritikus").value = origKritikus;
+        //document.getElementById("newGyujto").value = origGyujto;
     });
 }
+//VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+function tuzolto(origBtncolor) {
+    document.getElementById(
+        "selectCategoryColor"
+    ).innerHTML = `<select id=btnColorForm "
+    name="btnColorForm" form="btnColorForm" class="bg-${
+        selectColor[origBtncolor]
+    } ">
+    <option value="primary" class="bg-primary text-white" ${
+        origBtncolor == 0 ? "selected" : ""
+    }>${selectName[0]}</option>
+    <option value="secondary" class="bg-secondary text-white" ${
+        origBtncolor == 1 ? "selected" : ""
+    }>${selectName[1]}</option>
+    <option value="success" class="bg-success text-white"${
+        origBtncolor == 2 ? "selected" : ""
+    }>${selectName[2]}</option>
+    <option value="warning" class="bg-warning text-white" ${
+        origBtncolor == 3 ? "selected" : ""
+    }>${selectName[3]}</option>
+    <option value="danger" class="bg-danger text-white"${
+        origBtncolor == 4 ? "selected" : ""
+    }>${selectName[4]}</option>
+    <option value="dark" class="bg-dark text-white" ${
+        origBtncolor == 5 ? "selected" : ""
+    }>${selectName[5]}</option>
+    <option value="light" class="bg-light text-black" ${
+        origBtncolor == 6 ? "selected" : ""
+    }>${selectName[6]}</option>
+    </select>`;
+    console.log("tuzoltoColor");
+    console.log(document.getElementById("btnColorForm").value);
+    /* function myFunction() {
+        var x = document.getElementById("mySelect").value;
+        document.getElementById("demo").innerHTML = "You selected: " + x;
+        console.log(document.getElementById("demo").innerHTML);
+    } */
+}
+//VERSION-2:
+
 /* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
 /* function renderkiszereles() {
     let kiszerelesHTML = "";
@@ -397,11 +462,11 @@ function figyel() {
 function updatetermekek() {
     /* INFO:HACK:HACK:HACK: */
     const nev = document.getElementById("newNev").value;
-    const beszar = document.getElementById("newBeszar").value;
+    //const beszar = document.getElementById("newBeszar").value;
     const elar = document.getElementById("newElar").value;
-    const leltarozando = document.getElementById("newLeltarozando").value;
-    const kritikus = document.getElementById("newKritikus").value;
-    const gyujto = document.getElementById("newGyujto").value;
+    //const leltarozando = document.getElementById("newLeltarozando").value;
+    //const kritikus = document.getElementById("newKritikus").value;
+    //const gyujto = document.getElementById("newGyujto").value;
     /* HACK:HACK:HACK:INFO: */
     try {
         updateMySQL();
@@ -417,11 +482,11 @@ function updatetermekek() {
             body: JSON.stringify({
                 id: id,
                 nev: nev,
-                beszar: beszar,
+                //beszar: beszar,
                 elar: elar,
-                leltarozando: leltarozando,
-                kritikus: kritikus,
-                gyujto: gyujto,
+                //leltarozando: leltarozando,
+                //kritikus: kritikus,
+                //gyujto: gyujto,
             }),
         });
         console.log(response);
@@ -432,12 +497,63 @@ function updatetermekek() {
             }
         }
         state.termekek[arrowIndex].nev = nev;
-        state.termekek[arrowIndex].beszar = beszar;
+        //state.termekek[arrowIndex].beszar = beszar;
         state.termekek[arrowIndex].elar = elar;
-        state.termekek[arrowIndex].leltarozando = leltarozando;
-        state.termekek[arrowIndex].kritikus = kritikus;
-        state.termekek[arrowIndex].gyujto = gyujto;
+        //state.termekek[arrowIndex].leltarozando = leltarozando;
+        //state.termekek[arrowIndex].kritikus = kritikus;
+        //state.termekek[arrowIndex].gyujto = gyujto;
         rendertermekek();
     }
 }
+//VERSION-2:
+function addAlapanyag() {
+    console.log("alapanyag plus");
+    $("#myModalAdd").modal();
+    document.getElementById("newNev").value = "";
+    document.getElementById("newElar").value = "";
+    //VERSION-2://VERSION-2:
+}
+//VERSION-2:
+
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+/* 
+for (let termek of state.termekek) {
+        termekekHTML += `<tr >
+        <td>${termek.id}</td>
+        <td>${termek.nev}</td>
+        <td>${termek.elar}</td>
+        <td>
+        <select id=btnColorForm name="btnColorForm" form="btnColorForm" class="${
+            selectColor[termek.btncolor]
+        } ">
+        <option value="primary" class="bg-primary text-white" ${
+            termek.btncolor == 0 ? "selected" : ""
+        }>Primary</option>
+        <option value="secondary" class="bg-secondary text-white" ${
+            termek.btncolor == 1 ? "selected" : ""
+        }>secondary</option>
+        <option value="success" class="bg-success text-white"${
+            termek.btncolor == 2 ? "selected" : ""
+        }>success</option>
+        <option value="warning" class="bg-warning text-white" ${
+            termek.btncolor == 3 ? "selected" : ""
+        }>warning</option>
+        <option value="danger" class="bg-danger text-white"${
+            termek.btncolor == 4 ? "selected" : ""
+        }>danger</option>
+        <option value="dark" class="bg-dark text-white" ${
+            termek.btncolor == 5 ? "selected" : ""
+        }>dark</option>
+        <option value="light" class="bg-light text-black" ${
+            termek.btncolor == 6 ? "selected" : ""
+        }>light</option>
+        </select>
+    </td>
+        
+        <td><button class="updateBtn" id=${termek.id}>Edit</td>
+        </tr>
+        
+        `;
+        index++;
+        xid = termek.id; 
+    } */

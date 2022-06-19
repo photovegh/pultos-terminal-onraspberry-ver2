@@ -42,10 +42,12 @@ app.get("/pultosokadminpsw", (req, res) => {
     console.log("backEnd PSW ok");
 });
 
-/* INFO: lasttransaction BUG:BUG: TOROLNI NEM KELL BUG:BUG:*/
+//VERSION-2:
+/* INFO: lasttransaction BUG:BUG: TOROLNI ??? NEM KELL??? BUG:BUG:*/
 app.get("/lasttransaction", (req, res) => {
     res.sendFile(__dirname + "/last-transaction.json");
 });
+//VERSION-2:
 
 /* INFO: MySQL connection */
 /* var con = mysql.createConnection({
@@ -77,13 +79,15 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/views/admin.html");
 });
 
-/* INFO: /dataread 😋HACK:HACK:😋*/
-app.get("/dataread", (req, res) => {
+//VERSION-2://VERSION-2://VERSION-2:
+/* INFO: /datareadtermekek */
+app.get("/datareadtermekek", (req, res) => {
     con.query("SELECT * FROM termekek", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-}); /*   HACK:HACK:      HACK:HACK: */
+});
+//VERSION-2://VERSION-2://VERSION-2:
 
 //VERSION-2://VERSION-2:
 // INFO: alapanyagok HTML
@@ -207,12 +211,12 @@ app.get("/datareadforgalom", (req, res) => {
 });
 
 /* TODO: /datareadtermekek 😋😋😋😋😋😋*/
-app.get("/datareadtermekek", (req, res) => {
+/* app.get("/datareadtermekek", (req, res) => {
     con.query("SELECT * FROM termekek", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-});
+}); */
 
 /* INFO: config */
 app.get("/config", (req, res) => {
@@ -260,26 +264,18 @@ app.patch("/updatetermekekbeszerzes", bodyParser.json(), (req, res) => {
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
     var insertNev = [req.body.nev];
-    var insertBeszar = [req.body.beszar];
+    //var insertBeszar = [req.body.beszar];
     var insertElar = [req.body.elar];
-    var insertLeltarozando = [req.body.leltarozando];
-    var insertKritikus = [req.body.kritikus];
-    var insertGyujto = [req.body.gyujto];
+    //var insertLeltarozando = [req.body.leltarozando];
+    //var insertKritikus = [req.body.kritikus];
+    //var insertGyujto = [req.body.gyujto];
 
     var id = req.body.id;
     console.log(insertNev);
     console.log(id);
     con.query(
-        "UPDATE termekek SET nev = ?, beszar = ?, elar = ?, leltarozando = ?,kritikus = ?, gyujto = ? WHERE id = ?",
-        [
-            insertNev,
-            insertBeszar,
-            insertElar,
-            insertLeltarozando,
-            insertKritikus,
-            insertGyujto,
-            id,
-        ],
+        "UPDATE termekek SET nev = ?,  elar = ? WHERE id = ?",
+        [insertNev, insertElar, id],
         (err, data) => {
             try {
                 res.send(data);
@@ -373,12 +369,12 @@ app.listen(port, () => console.log("server is OK 😋 ADMINPORT: " + port));
 //VERSION-2:
 //VERSION-2: INFO: NEM KELL! INFO:
 /* INFO: /datareadcsoport 😋😋😋😋😋😋*/
-app.get("/datareadcsoport", (req, res) => {
+/* app.get("/datareadcsoport", (req, res) => {
     con.query("SELECT * FROM csoportok", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-});
+}); */
 //VERSION-2:
 //VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadkiszerelés 😋😋😋😋😋😋*/
@@ -391,21 +387,21 @@ app.get("/datareadkiszereles", (req, res) => {
 //VERSION-2:
 //VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadxkimeres 😋😋😋😋😋😋*/
-app.get("/datareadxkimeres", (req, res) => {
+/* app.get("/datareadxkimeres", (req, res) => {
     con.query("SELECT * FROM xkimeres", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-});
+}); */
 //VERSION-2:
 //VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: /datareadxkimeresnev 😋😋😋😋😋😋*/
-app.get("/datareadxkimeresnev", (req, res) => {
+/* app.get("/datareadxkimeresnev", (req, res) => {
     con.query("SELECT * FROM xkimeresnev", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
-});
+}); */
 //VERSION-2:
 //VERSION-2: INFO: NEM KELL! INFO:
 /* TODO: //datareadkevert 😋😋😋😋😋😋*/
