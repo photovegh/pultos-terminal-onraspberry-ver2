@@ -266,7 +266,7 @@ app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
     var insertNev = [req.body.nev];
     //var insertBeszar = [req.body.beszar];
     var insertElar = [req.body.elar];
-    //var insertLeltarozando = [req.body.leltarozando];
+    var insertBtncolor = [req.body.btncolor];
     //var insertKritikus = [req.body.kritikus];
     //var insertGyujto = [req.body.gyujto];
 
@@ -274,8 +274,8 @@ app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
     console.log(insertNev);
     console.log(id);
     con.query(
-        "UPDATE termekek SET nev = ?,  elar = ? WHERE id = ?",
-        [insertNev, insertElar, id],
+        "UPDATE termekek SET nev = ?,  elar = ?, btncolor = ? WHERE id = ?",
+        [insertNev, insertElar, insertBtncolor, id],
         (err, data) => {
             try {
                 res.send(data);

@@ -1,10 +1,7 @@
-/* var lastTransaction = -1;
-var termekKiszereles = 9;
-var csoportKiszereles = 5; */
-// NOTE: Ez definiálja a bekért adatbázis ojektum tömbjét 😎
 const state = {
     termekek: [],
     alapanyagok: [],
+    osszetevok: [],
 };
 const selectColor = [
     "primary",
@@ -24,60 +21,24 @@ const selectName = [
     "FEKETE",
     "FEHÉR",
 ];
-// NOTE: Ezek kellenek a forgalom //okhoz
-//const arrayPultNev = [];
-//const arrayPultElar = [];
 var productsHTML = "";
 var productsHTMLdrop = "";
 var xid = 1;
+var newBtncolor = -1;
 
 getdata();
 
 /* INFO: adatok bekérése START INFO: */
 async function getdata() {
-    /* NOTE: get last-transaction */
-    /* var response = await fetch("/lasttransaction");
-    state.lastTransaction = await response.json(); */
-
     /* NOTE: get termekek HACK:HACK: */
     var response = await fetch("/datareadtermekek");
     state.termekek = await response.json();
-
-    /* NOTE: get kiszereles */
-    /* var response = await fetch("/datareadkiszereles");
-    state.kiszereles = await response.json(); */
-
-    /* NOTE: get csoport */
-    /* var response = await fetch("/datareadcsoport");
-    state.csoportkategoria = await response.json(); */
-
-    /* NOTE: get xkimeres INFO: INFO: INFO:*/
-    /* var response = await fetch("/datareadxkimeres");
-    state.xkimeres = await response.json(); */
-
-    /* NOTE: get xkimeresnev INFO: INFO: INFO:*/
-    /* var response = await fetch("/datareadxkimeresnev");
-    state.xkimeresnev = await response.json(); */
 
     /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
     var response = await fetch("/datareadtermekek");
     state.termekek = await response.json();
 
-    //async function getdataonlytermekek() {
-    /* NOTE: get datareadtermekek INFO:*/
-    //    var response = await fetch("/datareadtermekek");
-    //    state.termekek = await response.json();
-    // BUG: esetleg rendertermekek() BUG:
-    //}
-
     rendertermekek();
-    /* HACK: */
-    /* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
-    //renderkiszereles();
-    //rendercsoport();
-    /* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
-    /* HACK: */
-    /* NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: NOTE: */
 
     $(document).ready(function () {
         $("#newdata").click(function () {
@@ -294,12 +255,6 @@ async function getdata() {
     });
 }
 
-/* function modalDataSedn() {
-    console.log("modalDataSedn()******************");
-    console.log("nev:");
-    console.log(nev);
-} */
-
 //VERSION-2:
 function rendertermekek() {
     let index = 0;
@@ -312,10 +267,8 @@ function rendertermekek() {
         <td><button type="button" class="btn btn-${
             selectColor[termek.btncolor]
         }" style = "width: 8em">${selectName[termek.btncolor]}</button></td>
-        
         <td><button class="updateBtn" id=${termek.id}>Edit</td>
         </tr>
-        
         `;
         index++;
         xid = termek.id; /* BUG: */
@@ -330,20 +283,14 @@ function rendertermekek() {
             }
         }
         var origNev = state.termekek[arrowIndex].nev;
-        //var origBeszar = state.termekek[arrowIndex].beszar;
         var origElar = state.termekek[arrowIndex].elar;
         var origBtncolor = state.termekek[arrowIndex].btncolor;
-        //var origKritikus = state.termekek[arrowIndex].kritikus;
-        //var origGyujto = state.termekek[arrowIndex].gyujto;
         origId = state.termekek[arrowIndex].id;
         $("#myModal").modal();
         document.getElementById("newNev").value = origNev;
-        //document.getElementById("newBeszar").value = origBeszar;
         document.getElementById("newElar").value = origElar;
         //VERSION-2:
-        tuzolto(origBtncolor);
-        //document.getElementById("newLeltarozando").value = origLeltarozando;
-
+        renderBtnColor(origBtncolor);
         const colorBtn = document.querySelector("#btnColorForm");
         colorBtn.onchange = function () {
             console.log("😋😋😋😋😋");
@@ -352,23 +299,22 @@ function rendertermekek() {
             var x = document.getElementById("btnColorForm").value;
             console.log("x");
             console.log(x);
+            newBtnColor = parseInt(selectColor.findIndex(checkColor));
             console.log(selectColor.findIndex(checkColor));
+            console.log(newBtnColor);
+            newBtncolor = newBtnColor;
             function checkColor(colorArrayNumber) {
                 return colorArrayNumber == x;
             }
         };
-        //document.getElementById("newKritikus").value = origKritikus;
-        //document.getElementById("newGyujto").value = origGyujto;
     });
 }
 //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
-function tuzolto(origBtncolor) {
+function renderBtnColor(origBtncolor) {
     document.getElementById(
         "selectCategoryColor"
     ).innerHTML = `<select id=btnColorForm "
-    name="btnColorForm" form="btnColorForm" class="bg-${
-        selectColor[origBtncolor]
-    } ">
+    name="btnColorForm" form="btnColorForm" >
     <option value="primary" class="bg-primary text-white" ${
         origBtncolor == 0 ? "selected" : ""
     }>${selectName[0]}</option>
@@ -391,64 +337,9 @@ function tuzolto(origBtncolor) {
         origBtncolor == 6 ? "selected" : ""
     }>${selectName[6]}</option>
     </select>`;
-    console.log("tuzoltoColor");
-    console.log(document.getElementById("btnColorForm").value);
-    /* function myFunction() {
-        var x = document.getElementById("mySelect").value;
-        document.getElementById("demo").innerHTML = "You selected: " + x;
-        console.log(document.getElementById("demo").innerHTML);
-    } */
 }
 //VERSION-2:
 
-/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
-/* function renderkiszereles() {
-    let kiszerelesHTML = "";
-    kiszerelesHTML += "<form>";
-    for (let vKiszereles of state.kiszereles) {
-        if (vKiszereles.id > 1) {
-            kiszerelesHTML += `
-            <input type="radio" id=${vKiszereles.id} name="kiszerelesRadio" value=${vKiszereles.id} class="kiszerelesRadio">
-            <label for=${vKiszereles.id}>${vKiszereles.nev}</label><br>
-            `;
-        }
-    }
-    kiszerelesHTML += "</form>";
-    document.getElementById("kiszerelesSelect").innerHTML = kiszerelesHTML;
-    $(".kiszerelesRadio").click(function () {
-        termekKiszereles = this.id;
-        console.log("kiszerelesRadio OK");
-        console.log(this.id);
-        console.log("termekKiszereles");
-        console.log(termekKiszereles);
-    });
-} */
-/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
-
-/* HACK: https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_form_horizontal&stacked=h HACK: */
-/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
-/* function rendercsoport() {
-    let csoportHTML = "";
-    csoportHTML += "<form>";
-    for (let vCsoport of state.csoportkategoria) {
-        if (vCsoport.id > 1) {
-            csoportHTML += `
-            <input type="radio" id=${vCsoport.id} name="csoportRadio" value=${vCsoport.id} class="csoportRadio">
-            <label for=${vCsoport.id}>${vCsoport.nev}</label><br>
-            `;
-        }
-    }
-    csoportHTML += "</form>";
-    document.getElementById("csoportSelect").innerHTML = csoportHTML;
-    $(".csoportRadio").click(function () {
-        csoportKiszereles = this.id;
-        console.log("csoportRadio OK");
-        console.log(this.id);
-        console.log("csoportKiszereles");
-        console.log(csoportKiszereles);
-    });
-} */
-/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
 /* HACK: */
 function figyel() {
     if (document.getElementById("nev").value == "") {
@@ -462,11 +353,8 @@ function figyel() {
 function updatetermekek() {
     /* INFO:HACK:HACK:HACK: */
     const nev = document.getElementById("newNev").value;
-    //const beszar = document.getElementById("newBeszar").value;
     const elar = document.getElementById("newElar").value;
-    //const leltarozando = document.getElementById("newLeltarozando").value;
-    //const kritikus = document.getElementById("newKritikus").value;
-    //const gyujto = document.getElementById("newGyujto").value;
+    const btncolor = newBtncolor;
     /* HACK:HACK:HACK:INFO: */
     try {
         updateMySQL();
@@ -482,11 +370,8 @@ function updatetermekek() {
             body: JSON.stringify({
                 id: id,
                 nev: nev,
-                //beszar: beszar,
                 elar: elar,
-                //leltarozando: leltarozando,
-                //kritikus: kritikus,
-                //gyujto: gyujto,
+                btncolor: btncolor,
             }),
         });
         console.log(response);
@@ -497,11 +382,8 @@ function updatetermekek() {
             }
         }
         state.termekek[arrowIndex].nev = nev;
-        //state.termekek[arrowIndex].beszar = beszar;
         state.termekek[arrowIndex].elar = elar;
-        //state.termekek[arrowIndex].leltarozando = leltarozando;
-        //state.termekek[arrowIndex].kritikus = kritikus;
-        //state.termekek[arrowIndex].gyujto = gyujto;
+        state.termekek[arrowIndex].btncolor = btncolor;
         rendertermekek();
     }
 }
@@ -557,3 +439,56 @@ for (let termek of state.termekek) {
         index++;
         xid = termek.id; 
     } */
+/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
+/* function renderkiszereles() {
+    let kiszerelesHTML = "";
+    kiszerelesHTML += "<form>";
+    for (let vKiszereles of state.kiszereles) {
+        if (vKiszereles.id > 1) {
+            kiszerelesHTML += `
+            <input type="radio" id=${vKiszereles.id} name="kiszerelesRadio" value=${vKiszereles.id} class="kiszerelesRadio">
+            <label for=${vKiszereles.id}>${vKiszereles.nev}</label><br>
+            `;
+        }
+    }
+    kiszerelesHTML += "</form>";
+    document.getElementById("kiszerelesSelect").innerHTML = kiszerelesHTML;
+    $(".kiszerelesRadio").click(function () {
+        termekKiszereles = this.id;
+        console.log("kiszerelesRadio OK");
+        console.log(this.id);
+        console.log("termekKiszereles");
+        console.log(termekKiszereles);
+    });
+} */
+/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
+
+/* HACK: https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_form_horizontal&stacked=h HACK: */
+/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
+/* function rendercsoport() {
+    let csoportHTML = "";
+    csoportHTML += "<form>";
+    for (let vCsoport of state.csoportkategoria) {
+        if (vCsoport.id > 1) {
+            csoportHTML += `
+            <input type="radio" id=${vCsoport.id} name="csoportRadio" value=${vCsoport.id} class="csoportRadio">
+            <label for=${vCsoport.id}>${vCsoport.nev}</label><br>
+            `;
+        }
+    }
+    csoportHTML += "</form>";
+    document.getElementById("csoportSelect").innerHTML = csoportHTML;
+    $(".csoportRadio").click(function () {
+        csoportKiszereles = this.id;
+        console.log("csoportRadio OK");
+        console.log(this.id);
+        console.log("csoportKiszereles");
+        console.log(csoportKiszereles);
+    });
+} */
+/* INFO:HACK:HACK:HACK: torol HACK:HACK:HACK:INFO: */
+/* function modalDataSedn() {
+    console.log("modalDataSedn()******************");
+    console.log("nev:");
+    console.log(nev);
+} */
