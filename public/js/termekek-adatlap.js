@@ -366,7 +366,7 @@ function renderOsszetevok() {
             console.log("DELETE ***** id");
             console.log(id);
             /* INFO: deleteosszetevo  INFO: INFO: INFO: INFO:*/
-            var response = await fetch("/deleteosszetevo/" + id, {
+            await fetch("/deleteosszetevo/" + id, {
                 method: "DELETE",
                 /*   headers: {
                     "Content-type": "application/json",
@@ -377,13 +377,13 @@ function renderOsszetevok() {
                     felhasznaltmennyiseg: felhasznaltmennyiseg,
                 }) */
             });
-            console.log(response);
-            /* console.log("state.osszetevok");
+            //console.log(response);
+            console.log("state.osszetevok ELOOTTE");
             console.log(state.osszetevok);
-            getdata();
-            renderOsszetevok();
-            console.log("state.osszetevok");
-            console.log(state.osszetevok); */
+            await getdata();
+            await renderOsszetevok();
+            console.log("state.osszetevok 😋😋😋");
+            console.log(state.osszetevok);
             /* INFO: insertosszetevok  INFO: INFO: INFO: INFO: */
         }
         //VERSION-2:
@@ -418,8 +418,6 @@ function renderOsszetevok() {
                 termek_id = origId;
                 alapanyag_id = osszetevoAlapanyagId;
                 felhasznaltmennyiseg = 0.25;
-
-                /* INFO: insertosszetevok  INFO: INFO: INFO: INFO:*/
                 await fetch("/insertosszetevok/", {
                     method: "POST",
                     headers: {
@@ -431,18 +429,15 @@ function renderOsszetevok() {
                         felhasznaltmennyiseg: felhasznaltmennyiseg,
                     }),
                 });
-                /* console.log("state.osszetevok");
+                console.log("state.osszetevok elotte");
                 console.log(state.osszetevok);
-                getdata();
-                renderOsszetevok();
-                console.log("state.osszetevok");
-                console.log(state.osszetevok); */
-                /* INFO: insertosszetevok  INFO: INFO: INFO: INFO: */
+                await getdata();
+                await renderOsszetevok();
+                console.log("state.osszetevok 😋");
+                console.log(state.osszetevok);
             }
-            //VERSION-2:
+            //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
         });
-        /* getdata();
-        renderOsszetevok(); */
     });
 }
 function renderBtnColor(origBtncolor) {
@@ -524,6 +519,7 @@ function updatetermekek() {
 //VERSION-2:
 function addAlapanyag() {
     console.log("alapanyag plus");
+    document.getElementById("newAlapanyag").innerHTML = "";
     /* $("#myModalAdd").modal();
     document.getElementById("newNev").value = "";
     document.getElementById("newElar").value = ""; */

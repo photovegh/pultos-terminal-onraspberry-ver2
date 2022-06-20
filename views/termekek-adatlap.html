@@ -71,98 +71,98 @@
     </div>
     <!-- VERSION-2: -->
 
+    <div id="newAlapanyag">
 
 
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+        <div class="container text-center">
+            <button type="button" class="btn btn-info " onclick="addAlapanyag()">Uj termék</button>
+            <table class="table table-striped text-center">
+                <br>
+                <br>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Neve</th>
+                        <th>Eladási ár</th>
+                        <th>Szinezése</th>
+                        <th>Szerkeszt</th>
+                    </tr>
+                </thead>
+                <tbody id="termekek">
+                </tbody>
+            </table>
+            <div id="adatok"></div>
+        </div>
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
 
-    <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
-    <div class="container text-center">
-        <button type="button" class="btn btn-info " onclick="addAlapanyag()">Uj termék</button>
-        <table class="table table-striped text-center">
-            <br>
-            <br>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Neve</th>
-                    <th>Eladási ár</th>
-                    <th>Szinezése</th>
-                    <th>Szerkeszt</th>
-                </tr>
-            </thead>
-            <tbody id="termekek">
-            </tbody>
-        </table>
-        <div id="adatok"></div>
-    </div>
-    <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+        <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
 
-    <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-info text-white">
+                        <h4 class="modal-title">Termék adatok változtatása</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
 
-                <!-- Modal Header -->
-                <div class="modal-header bg-info text-white">
-                    <h4 class="modal-title">Termék adatok változtatása</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <!-- <th>Id</th> -->
-                                <th>Neve</th>
-                                <th>Eladási ár</th>
-                                <th>Színválasztó</th>
-                            </tr>
-                        </thead>
-                        <tbody id="termekModosit">
-                            <td>
-                                <input type="text" id="newNev" name="newNev">
-                            </td>
-                            <td>
-                                <input type="number" id="newElar" name="newElar" style="width: 7em">
-                            </td>
-                            <td id="selectCategoryColor">
-                            </td>
-                        </tbody>
-                    </table>
-                    <div id="osszetevok"></div>
-                    <!-- //VERSION-2://VERSION-2://VERSION-2: -->
-                    <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <!-- <th>Id</th> -->
+                                    <th>Neve</th>
+                                    <th>Eladási ár</th>
+                                    <th>Színválasztó</th>
+                                </tr>
+                            </thead>
+                            <tbody id="termekModosit">
+                                <td>
+                                    <input type="text" id="newNev" name="newNev">
+                                </td>
+                                <td>
+                                    <input type="number" id="newElar" name="newElar" style="width: 7em">
+                                </td>
+                                <td id="selectCategoryColor">
+                                </td>
+                            </tbody>
+                        </table>
+                        <div id="osszetevok"></div>
+                        <!-- //VERSION-2://VERSION-2://VERSION-2: -->
+                        <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
                         hozzáadása</button> -->
-                    <!-- <button type="button" class="btn btn-danger " data-dismiss="modal"
+                        <!-- <button type="button" class="btn btn-danger " data-dismiss="modal"
                         onclick="updatetermekek()">Összetevő törlése</button> -->
-                </div>
+                    </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer bg-info text-white">
-                    <button type="button" class="btn btn-danger " data-dismiss="modal"
-                        onclick="updatetermekek()">Felülírom !!!</button>
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-info text-white">
+                        <button type="button" class="btn btn-danger " data-dismiss="modal"
+                            onclick="updatetermekek()">Felülírom !!!</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
-    <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
-    <!-- The Modal -->
-    <div class="modal" id="myModalAdd">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
+        <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
+        <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
+        <!-- The Modal -->
+        <div class="modal" id="myModalAdd">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header bg-secondary text-white">
-                    <h4 class="modal-title">Válaszd ki az összetevőt!</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-secondary text-white">
+                        <h4 class="modal-title">Válaszd ki az összetevőt!</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div id="selectOsszetevo"></div>
-                    <!-- <table class="table table-striped">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div id="selectOsszetevo"></div>
+                        <!-- <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Neve</th>
@@ -179,22 +179,24 @@
                             </td>
                         </tbody>
                     </table> -->
-                    <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
+                        <!-- <button type="button" class="btn btn-info " data-dismiss="modal" onclick="addAlapanyag()">Alapanyag
                         hozzáadása</button> -->
-                </div>
+                    </div>
 
-                <!-- Modal footer -->
-                <!-- <div class="modal-footer bg-info text-white">
+                    <!-- Modal footer -->
+                    <!-- <div class="modal-footer bg-info text-white">
                     <button type="button" class="btn btn-danger " data-dismiss="modal" onclick="updatetermekek()">Mentem
                         !!!</button>
                 </div> -->
+                </div>
             </div>
         </div>
-    </div>
-    <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
-    <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
+        <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
+        <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
 
     </div>
+
+    <!-- </div> -->
     <script src="jquery.slim.min.js"></script>
     <script src="popper.min.js"></script>
     <script src="bootstrap.bundle.min.js"></script>
