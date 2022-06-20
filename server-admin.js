@@ -153,6 +153,33 @@ app.post("/insertalapanyagok", bodyParser.json(), (req, res) => {
     );
     res.sendFile(__dirname + "/views/alapanyagok.html");
 });
+// INFO: //inserttermek DATA insert
+app.post("/inserttermek", bodyParser.json(), (req, res) => {
+    //var keszletsum = [req.body.keszlet * req.body.kiszereles];
+    var insertData = [
+        req.body.nev,
+        req.body.elar,
+        req.body.urtartalom,
+        req.body.btncolor,
+        req.body.visiblesequence,
+    ];
+    console.log("insertData");
+    console.log(insertData);
+    con.query(
+        "INSERT INTO termekek (nev, elar, urtartalom, btncolor, visiblesequence) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            insertData = [""];
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    );
+    res.sendFile(__dirname + "/views/termekek-adatlap.html");
+});
 // INFO: /insertosszetevok DATA insert
 app.post("/insertosszetevok", bodyParser.json(), (req, res) => {
     //var keszletsum = [req.body.keszlet * req.body.kiszereles];

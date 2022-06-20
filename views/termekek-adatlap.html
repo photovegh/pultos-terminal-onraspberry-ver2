@@ -71,12 +71,18 @@
     </div>
     <!-- VERSION-2: -->
 
-    <div id="newAlapanyag">
-
+    <div id="newTermek">
+        <!-- //VERSION-2://VERSION-2://VERSION-2: -->
+        <div class="container text-center">
+            <div class=" top">
+            </div>
+            <div class="bottom"></div>
+        </div>
+        <!-- //VERSION-2://VERSION-2://VERSION-2: -->
 
         <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
         <div class="container text-center">
-            <button type="button" class="btn btn-info " onclick="addAlapanyag()">Uj termék</button>
+            <button type="button" class="btn btn-info " id="addNewBtn">Uj termék</button>
             <table class="table table-striped text-center">
                 <br>
                 <br>
@@ -86,6 +92,7 @@
                         <th>Neve</th>
                         <th>Eladási ár</th>
                         <th>Szinezése</th>
+                        <th>Sorrend</th>
                         <th>Szerkeszt</th>
                     </tr>
                 </thead>
@@ -98,7 +105,7 @@
 
         <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->
         <!-- The Modal -->
-        <div class="modal" id="myModal">
+        <div class="modal" id="myModalTermek">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
 
@@ -140,8 +147,8 @@
 
                     <!-- Modal footer -->
                     <div class="modal-footer bg-info text-white">
-                        <button type="button" class="btn btn-danger " data-dismiss="modal"
-                            onclick="updatetermekek()">Felülírom !!!</button>
+                        <button type="button" class="btn btn-warning " data-dismiss="modal"
+                            onclick="updatetermekek()">ADATRÖGZÍTÉS !!!</button>
                     </div>
                 </div>
             </div>
@@ -184,16 +191,47 @@
                     </div>
 
                     <!-- Modal footer -->
-                    <!-- <div class="modal-footer bg-info text-white">
-                    <button type="button" class="btn btn-danger " data-dismiss="modal" onclick="updatetermekek()">Mentem
-                        !!!</button>
-                </div> -->
+                    <div class="modal-footer bg-secondary text-white">
+                        <h2 class="text-center">Itt csak olyan elemek szerepelnek aminek a kiszerelése LITER</h2>
+                        <!-- <button type="button" class="btn btn-danger " data-dismiss="modal" onclick="updatetermekek()">Mentem
+                        !!!</button> -->
+                    </div>
                 </div>
             </div>
         </div>
         <!-- BUG:BUG:BUG:BUG:BUG:BUG:BUG: -->//VERSION-2://VERSION-2:
         <!-- FIXME:FIXME:FIXME:FIXME:FIXME: -->
 
+        <!-- //VERSION-2://VERSION-2://VERSION-2: -->
+        <!-- The Modal -->
+        <div class="modal" id="myModalFelhasznalt">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header bg-warning">
+                        <h4 class="modal-title">Milyen mennyiséget használjak fel?</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <h3 class="card" id="felhasznaltNev"></h3>
+                        <input type="number" id="felhasznalt" name="felhasznalt">
+
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer bg-warning">
+                        <button type="button" class="btn btn-info" data-dismiss="modal"
+                            id="felhasznaltBTN">Rögzíten</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- //VERSION-2://VERSION-2://VERSION-2: -->
     </div>
 
     <!-- </div> -->

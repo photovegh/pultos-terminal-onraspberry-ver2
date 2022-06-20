@@ -31,6 +31,7 @@ var origBtncolor = -1;
 var origId = 0;
 var osszetevoAlapanyagId = -1;
 var osszetevoFelhasznaltMennyiseg = -1;
+var newTermek = false;
 
 getdata();
 
@@ -49,220 +50,6 @@ async function getdata() {
     state.osszetevok = await response.json();
 
     rendertermekek();
-
-    $(document).ready(function () {
-        $("#newdata").click(function () {
-            /* TODO: NOTE: INFO: insertMySQL(); TODO: NOTE: INFO:*/
-            insertMySQL();
-            async function insertMySQL() {
-                /* TODO: NOTE: INFO: NOTE: TODO: */
-                const nevInput = document.querySelector("#nev");
-                /* HACK: const nev = nevInput.value; HACK: */
-                const nev = nevInput.value == "" ? "noname" : nevInput.value;
-                nevInput.value = "";
-
-                const beszarInput = document.querySelector("#beszar");
-                /* const beszar = beszarInput.value; */
-                const beszar =
-                    beszarInput.value == "" ? "0" : beszarInput.value;
-                beszarInput.value = "";
-
-                const elarInput = document.querySelector("#elar");
-                const elar = elarInput.value == "" ? "0" : elarInput.value;
-                elarInput.value = "";
-
-                const leltarozandoInput = document.querySelectorAll(
-                    'input[name="leltarozando"]'
-                );
-                var leltarozando = "*";
-                console.log(leltarozandoInput);
-                for (selected of leltarozandoInput) {
-                    if (selected.checked) {
-                        console.log(selected.value);
-                        console.log(leltarozando);
-
-                        leltarozando = selected.value;
-                    }
-                }
-                /* const leltarozandoInput =
-                    document.querySelector("#leltarozando");
-                const leltarozando = leltarozandoInput.value; */
-                //const leltarozando = leltarozandoInput.value == "i" ? "i" : "n";
-                /* const leltarozando =
-                    leltarozandoInput.value == ""
-                        ? "i"
-                        : leltarozandoInput.value; */
-                leltarozandoInput.value = "";
-
-                const kritikusInput = document.querySelector("#kritikus");
-                const kritikus =
-                    kritikusInput.value == "" ? "0" : kritikusInput.value;
-                kritikusInput.value = "";
-
-                const gyujtoInput = document.querySelector("#gyujto");
-                const gyujto =
-                    gyujtoInput.value == "" ? "0" : gyujtoInput.value;
-                gyujtoInput.value = "";
-
-                const jelenlegiKeszletInput =
-                    document.querySelector("#jelenlegiKeszlet");
-                const jelenlegiKeszlet =
-                    jelenlegiKeszletInput.value == ""
-                        ? "0"
-                        : jelenlegiKeszletInput.value;
-                jelenlegiKeszletInput.value = "";
-
-                const urtartalomInput = document.querySelector("#urtartalom");
-                const urtartalom =
-                    urtartalomInput.value == ""
-                        ? "0"
-                        : parseInt(urtartalomInput.value * 100);
-                urtartalomInput.value = "";
-                /* BUG:BUG:BUG:BUG:BUG:  */
-                //const cl = urtartalom * 10;
-                //const cl = termekKiszereles == 2 ? urtartalom * 10 : 1;
-                const cl = termekKiszereles == 2 ? parseInt(urtartalom) : 1;
-                /* const cl =
-                    termekKiszereles == 2 ? parseInt(urtartalom * 100) : 1; */
-                /* BUG:BUG:BUG:BUG:BUG: */
-                const sumcl = jelenlegiKeszlet * cl;
-
-                var id = xid + 1;
-                /* INFO: inserttermekek  INFO: INFO: INFO: INFO: INFO: INFO: INFO:*/
-                await fetch("/inserttermekek/", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        /* TODO: NOTE: INFO: NOTE: TODO: */
-                        nev: nev,
-                        beszar: beszar,
-                        elar: elar,
-                        leltarozando: leltarozando,
-                        kritikus: kritikus,
-                        gyujto: gyujto,
-                        urtartalom: urtartalom,
-                        jelenlegiKeszlet: jelenlegiKeszlet,
-                        cl: cl,
-                        sumcl: sumcl,
-                        kiszerelesId: termekKiszereles,
-                        csoportId: csoportKiszereles,
-
-                        /* TODO: NOTE: INFO: NOTE: TODO: */
-                    }),
-                });
-
-                var myArray = [];
-                //INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:
-                if (termekKiszereles == 2) {
-                    $("#createXkimeres").modal();
-                    //var myArray = [];
-                    var indexArray = [];
-                    var myObject = {};
-                    createXkimeresHTML = "";
-                    let str = `<h3 style = "color: blue">${nev}</h3>`;
-                    document.getElementById("azonosito").innerHTML = str;
-
-                    for (vKimeresNev of state.xkimeresnev) {
-                        createXkimeresHTML += `<h4 class = "xKimeresSelect" title=0 id = ${vKimeresNev.id} 
-                        style = "background: coral" >${vKimeresNev.nev}</h4>`;
-                        myObject = {
-                            xKim: {
-                                elemID: vKimeresNev.id,
-                                tarolhato: 0,
-                            },
-                        };
-                        myArray.push(myObject);
-                        indexArray.push(vKimeresNev.id);
-                    }
-                    document.getElementById("modalKineresNev").innerHTML =
-                        createXkimeresHTML;
-                    $(".xKimeresSelect").click(function () {
-                        let index = 0;
-                        let arrayIndex = 0;
-                        for (let i of indexArray) {
-                            if (i == this.id) {
-                                index = arrayIndex;
-                            }
-                            arrayIndex++;
-                        }
-                        this.title == 0
-                            ? this.setAttribute("title", 1)
-                            : this.setAttribute("title", 0);
-                        /* this.title == 1
-                            ? (this.class = "btn btn-success xKimeresSelect")
-                            : (this.class = "btn btn-danger xKimeresSelect"); */
-                        this.title == 1
-                            ? /* this.style.color = "green" */
-                              (this.style.background = "greenyellow")
-                            : (this.style.background = "coral");
-
-                        this.title == 1
-                            ? (myArray[index].xKim.tarolhato = 1)
-                            : (myArray[index].xKim.tarolhato = 0);
-                        //console.log(myArray);
-                    });
-
-                    //BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:
-                    $("#mDataSend").click(function () {
-                        var termek_id = "";
-                        var termek_nev = "";
-                        var xkimeresnev_id = "";
-                        var insertIndex = 0;
-                        let index = 1;
-                        id = id - 1; //NOTE: a tárolando termek_id
-
-                        for (insertId of myArray) {
-                            if (insertId.xKim.tarolhato == 1) {
-                                //BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:
-                                //ide kell a fetch !!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                insertIndex = insertId.xKim.elemID;
-
-                                insertXkimereMySQL();
-                                //BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:
-                            }
-                        }
-
-                        async function insertXkimereMySQL() {
-                            termek_id = id;
-                            termek_nev = nev;
-                            xkimeresnev_id = insertIndex;
-
-                            /* INFO: inserxkimeres  INFO: INFO: INFO: INFO:*/
-                            await fetch("/inserxkimeres/", {
-                                method: "POST",
-                                headers: {
-                                    "Content-type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                    termek_id: termek_id,
-                                    termek_nev: termek_nev,
-                                    xkimeresnev_id: xkimeresnev_id,
-                                }),
-                            });
-                            /* INFO: inserxkimeres  INFO: INFO: INFO: INFO: */
-                        }
-                    });
-                    //BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:BUG:
-                }
-                //INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:
-
-                /* INFO: inserttermekek  INFO: INFO: INFO: INFO: INFO: INFO: INFO:*/
-                termekekHTML += `<tr >
-                <td>${id}</td>
-                <td>${nev}</td>
-                <td>${beszar}</td>
-                </tr>
-                `;
-
-                id++;
-                xid++;
-                document.getElementById("termekek").innerHTML = termekekHTML;
-                document.getElementById("totalForm").reset();
-            }
-        });
-    });
 }
 
 //VERSION-2:
@@ -277,14 +64,51 @@ function rendertermekek() {
         <td><button type="button" class="btn btn-${
             selectColor[termek.btncolor]
         }" style = "width: 8em">${selectName[termek.btncolor]}</button></td>
-        <td><button class="updateBtn" id=${termek.id}>Edit</td>
+        <td>${termek.visiblesequence}</td>
+        <td><button class="updateBtn" id=${termek.visiblesequence}>Edit</td>
         </tr>
         `;
         index++;
         xid = termek.id; /* BUG: */
     }
     document.getElementById("termekek").innerHTML = termekekHTML;
-
+    //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+    $("#addNewBtn").click(function () {
+        document.getElementById("newTermek").innerHTML = "";
+        /* newTermek = false;
+        newBtncolor = 0;
+        origBtncolor = 0;
+        osszetevokHTML = ``; */
+        //let arrowIndex = -1;
+        /* for (let i = 0; i < state.termekek.length; i++) {
+            if (state.termekek[i].id == this.id) {
+                arrowIndex = i;
+            }
+        } */
+        //origNev = state.termekek[arrowIndex].nev;
+        //origElar = state.termekek[arrowIndex].elar;
+        //var origBtncolor = state.termekek[arrowIndex].btncolor;
+        //newBtncolor = origBtncolor;
+        //origId = state.termekek[arrowIndex].id;
+        /* $("#myModalTermek").modal();
+        document.getElementById("newNev").value = "";
+        document.getElementById("newElar").value = 0;
+        renderBtnColor(origBtncolor); */
+        //renderOsszetevok();
+        /* console.log("osszetevoAlapanyagId");
+        console.log(osszetevoAlapanyagId); */
+        //VERSION-2:
+        //VERSION-2:
+        /* const colorBtn = document.querySelector("#btnColorForm");
+        colorBtn.onchange = function () {
+            var x = document.getElementById("btnColorForm").value;
+            newBtncolor = parseInt(selectColor.findIndex(checkColor));
+            function checkColor(colorArrayNumber) {
+                return colorArrayNumber == x;
+            }
+        }; */
+    });
+    //VERSION-2://VERSION-2://VERSION-2:
     $(".updateBtn").click(function () {
         let arrowIndex = -1;
         for (let i = 0; i < state.termekek.length; i++) {
@@ -297,7 +121,7 @@ function rendertermekek() {
         var origBtncolor = state.termekek[arrowIndex].btncolor;
         newBtncolor = origBtncolor;
         origId = state.termekek[arrowIndex].id;
-        $("#myModal").modal();
+        $("#myModalTermek").modal();
         document.getElementById("newNev").value = origNev;
         document.getElementById("newElar").value = origElar;
         renderBtnColor(origBtncolor);
@@ -353,7 +177,7 @@ function renderOsszetevok() {
             }
         }
     }
-    osszetevokHTML += `</tbody></table><button type="button" class="btn btn-info " id="addOsszetevo">+</button>`;
+    osszetevokHTML += `</tbody></table><button type="button" class="btn btn-warning " id="addOsszetevo">Alapanyag hozzáadása</button>`;
     document.getElementById("osszetevok").innerHTML = osszetevokHTML;
 
     $(".deleteBtn").click(function () {
@@ -394,17 +218,24 @@ function renderOsszetevok() {
         selectOsszetevokHTML = "";
         let index = 0;
         for (alapanyag of state.alapanyagok) {
-            selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" id=${alapanyag.id}>${alapanyag.nev}</button>`;
+            if (alapanyag.mertekegyseg == "liter") {
+                selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
+            }
             index++;
         }
         document.getElementById("selectOsszetevo").innerHTML =
             selectOsszetevokHTML;
 
-        $(".selected").click(function () {
+        $(".selected").click(function (e) {
             osszetevoAlapanyagId = this.id;
+            alapanyagKiszereles = e.target.dataset.kiszereles;
+            alapanyagNev = e.target.dataset.nev;
             console.log("this.id-------------------------");
             console.log(osszetevoAlapanyagId);
-            //$("#myModalAdd .close").click();
+            $("#myModalAdd .close").click();
+            $("#myModalFelhasznalt").modal();
+            document.getElementById("felhasznalt").value = alapanyagKiszereles;
+            document.getElementById("felhasznaltNev").innerHTML = alapanyagNev;
             console.log("this.id------SZAL-------------");
             console.log("origId");
             console.log(origId);
@@ -412,12 +243,15 @@ function renderOsszetevok() {
             console.log(origNev);
             console.log("osszetevoAlapanyagId");
             console.log(osszetevoAlapanyagId);
-            insertOsszetevokMySQL();
+            //insertOsszetevokMySQL();insertOsszetevokMySQL()
+            $("#felhasznaltBTN").click(function () {
+                insertOsszetevokMySQL();
+            });
             //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
             async function insertOsszetevokMySQL() {
                 termek_id = origId;
                 alapanyag_id = osszetevoAlapanyagId;
-                felhasznaltmennyiseg = 0.25;
+                felhasznaltmennyiseg = alapanyagKiszereles;
                 await fetch("/insertosszetevok/", {
                     method: "POST",
                     headers: {
@@ -485,13 +319,54 @@ function updatetermekek() {
     const nev = document.getElementById("newNev").value;
     const elar = document.getElementById("newElar").value;
     const btncolor = newBtncolor;
+    const urtartalom = 0;
+    const visiblesequence = state.termekek.length + 1;
     /* HACK:HACK:HACK:INFO: */
-    try {
-        updateMySQL();
-    } catch (e) {}
+    if (newTermek) {
+        try {
+            console.log("newTermek");
+            //const btncolor = document.getElementById("colorBtn").value;
+            insertMySQL();
+            newTermek = false;
+        } catch (e) {}
+    } else {
+        try {
+            updateMySQL();
+        } catch (e) {}
+    }
+    newTermek = false;
+    /* HACK:HACK:HACK:INFO: */
+    async function insertMySQL() {
+        id = origId;
+        const response = await fetch("/inserttermek/", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+                nev: nev,
+                elar: elar,
+                urtartalom: urtartalom,
+                btncolor: btncolor,
+                visiblesequence: visiblesequence,
+            }),
+        });
+        let arrowIndex = -1;
+        for (let i = 0; i < state.termekek.length; i++) {
+            if (state.termekek[i].id == id) {
+                arrowIndex = i;
+            }
+        }
+        state.termekek[arrowIndex].nev = nev;
+        state.termekek[arrowIndex].elar = elar;
+        state.termekek[arrowIndex].btncolor = btncolor;
+        await getdata();
+        await rendertermekek();
+        /* HACK:HACK:HACK:INFO: */
+    }
     async function updateMySQL() {
         id = origId;
-
+        newTermek = false;
         const response = await fetch("/updatetermekek/", {
             method: "PATCH",
             headers: {
@@ -519,7 +394,7 @@ function updatetermekek() {
 //VERSION-2:
 function addAlapanyag() {
     console.log("alapanyag plus");
-    document.getElementById("newAlapanyag").innerHTML = "";
+    document.getElementById("newTermek").innerHTML = "";
     /* $("#myModalAdd").modal();
     document.getElementById("newNev").value = "";
     document.getElementById("newElar").value = ""; */
@@ -622,3 +497,161 @@ for (let termek of state.termekek) {
     console.log("nev:");
     console.log(nev);
 } */
+
+//VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+/* $(document).ready(function () {
+    $("#newdata").click(function () {
+        insertMySQL();
+        async function insertMySQL() {
+            const nevInput = document.querySelector("#nev");
+            const nev = nevInput.value == "" ? "noname" : nevInput.value;
+            nevInput.value = "";
+            const beszarInput = document.querySelector("#beszar");
+            const beszar = beszarInput.value == "" ? "0" : beszarInput.value;
+            beszarInput.value = "";
+            const elarInput = document.querySelector("#elar");
+            const elar = elarInput.value == "" ? "0" : elarInput.value;
+            elarInput.value = "";
+            const leltarozandoInput = document.querySelectorAll(
+                'input[name="leltarozando"]'
+            );
+            var leltarozando = "*";
+            console.log(leltarozandoInput);
+            for (selected of leltarozandoInput) {
+                if (selected.checked) {
+                    console.log(selected.value);
+                    console.log(leltarozando);
+
+                    leltarozando = selected.value;
+                }
+            }
+            leltarozandoInput.value = "";
+            const kritikusInput = document.querySelector("#kritikus");
+            const kritikus =
+                kritikusInput.value == "" ? "0" : kritikusInput.value;
+            kritikusInput.value = "";
+            const gyujtoInput = document.querySelector("#gyujto");
+            const gyujto = gyujtoInput.value == "" ? "0" : gyujtoInput.value;
+            gyujtoInput.value = "";
+            const jelenlegiKeszletInput =
+                document.querySelector("#jelenlegiKeszlet");
+            const jelenlegiKeszlet =
+                jelenlegiKeszletInput.value == ""
+                    ? "0"
+                    : jelenlegiKeszletInput.value;
+            jelenlegiKeszletInput.value = "";
+            const urtartalomInput = document.querySelector("#urtartalom");
+            const urtartalom =
+                urtartalomInput.value == ""
+                    ? "0"
+                    : parseInt(urtartalomInput.value * 100);
+            urtartalomInput.value = "";
+            const cl = termekKiszereles == 2 ? parseInt(urtartalom) : 1;
+            const sumcl = jelenlegiKeszlet * cl;
+            var id = xid + 1;
+            await fetch("/inserttermekek/", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    nev: nev,
+                    beszar: beszar,
+                    elar: elar,
+                    leltarozando: leltarozando,
+                    kritikus: kritikus,
+                    gyujto: gyujto,
+                    urtartalom: urtartalom,
+                    jelenlegiKeszlet: jelenlegiKeszlet,
+                    cl: cl,
+                    sumcl: sumcl,
+                    kiszerelesId: termekKiszereles,
+                    csoportId: csoportKiszereles,
+                }),
+            });
+            var myArray = [];
+            if (termekKiszereles == 2) {
+                $("#createXkimeres").modal();
+                var indexArray = [];
+                var myObject = {};
+                createXkimeresHTML = "";
+                let str = `<h3 style = "color: blue">${nev}</h3>`;
+                document.getElementById("azonosito").innerHTML = str;
+                for (vKimeresNev of state.xkimeresnev) {
+                    createXkimeresHTML += `<h4 class = "xKimeresSelect" title=0 id = ${vKimeresNev.id} 
+                        style = "background: coral" >${vKimeresNev.nev}</h4>`;
+                    myObject = {
+                        xKim: {
+                            elemID: vKimeresNev.id,
+                            tarolhato: 0,
+                        },
+                    };
+                    myArray.push(myObject);
+                    indexArray.push(vKimeresNev.id);
+                }
+                document.getElementById("modalKineresNev").innerHTML =
+                    createXkimeresHTML;
+                $(".xKimeresSelect").click(function () {
+                    let index = 0;
+                    let arrayIndex = 0;
+                    for (let i of indexArray) {
+                        if (i == this.id) {
+                            index = arrayIndex;
+                        }
+                        arrayIndex++;
+                    }
+                    this.title == 0
+                        ? this.setAttribute("title", 1)
+                        : this.setAttribute("title", 0);
+                    this.title == 1
+                        ? (this.style.background = "greenyellow")
+                        : (this.style.background = "coral");
+                    this.title == 1
+                        ? (myArray[index].xKim.tarolhato = 1)
+                        : (myArray[index].xKim.tarolhato = 0);
+                });
+                $("#mDataSend").click(function () {
+                    var termek_id = "";
+                    var termek_nev = "";
+                    var xkimeresnev_id = "";
+                    var insertIndex = 0;
+                    let index = 1;
+                    id = id - 1;
+                    for (insertId of myArray) {
+                        if (insertId.xKim.tarolhato == 1) {
+                            insertIndex = insertId.xKim.elemID;
+                            insertXkimereMySQL();
+                        }
+                    }
+                    async function insertXkimereMySQL() {
+                        termek_id = id;
+                        termek_nev = nev;
+                        xkimeresnev_id = insertIndex;
+                        await fetch("/inserxkimeres/", {
+                            method: "POST",
+                            headers: {
+                                "Content-type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                termek_id: termek_id,
+                                termek_nev: termek_nev,
+                                xkimeresnev_id: xkimeresnev_id,
+                            }),
+                        });
+                    }
+                });
+            }
+            termekekHTML += `<tr >
+                <td>${id}</td>
+                <td>${nev}</td>
+                <td>${beszar}</td>
+                </tr>
+                `;
+            id++;
+            xid++;
+            document.getElementById("termekek").innerHTML = termekekHTML;
+            document.getElementById("totalForm").reset();
+        }
+    });
+}); */
+//VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
