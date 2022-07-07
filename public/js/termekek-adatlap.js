@@ -243,15 +243,27 @@ function renderOsszetevok() {
             console.log(origNev);
             console.log("osszetevoAlapanyagId");
             console.log(osszetevoAlapanyagId);
+            //VERSION-2:INFO:
             //insertOsszetevokMySQL();insertOsszetevokMySQL()
-            $("#felhasznaltBTN").click(function () {
+            //$('#link').off('click').on('click',function(){});
+            $("#felhasznaltBTN")
+                .off("click")
+                .on("click", function () {
+                    insertOsszetevokMySQL();
+                });
+            /* $("#felhasznaltBTN").click(function () {
                 insertOsszetevokMySQL();
-            });
+            }); */
+            //VERSION-2:INFO:
             //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
             async function insertOsszetevokMySQL() {
                 termek_id = origId;
                 alapanyag_id = osszetevoAlapanyagId;
-                felhasznaltmennyiseg = alapanyagKiszereles;
+                //VERSION-2:INFO:
+                felhasznaltmennyiseg =
+                    document.getElementById("felhasznalt").value;
+                //VERSION-2:INFO:
+                //felhasznaltmennyiseg = alapanyagKiszereles;
                 await fetch("/insertosszetevok/", {
                     method: "POST",
                     headers: {
