@@ -24,10 +24,10 @@ const selectName = [
 var productsHTML = "";
 var productsHTMLdrop = "";
 var xid = 1;
-var newBtncolor = -1;
+var newBtncolor = 0;
 var origNev = "";
 var origElar = 0;
-var origBtncolor = -1;
+var origBtncolor = 0;
 var origId = 0;
 var osszetevoAlapanyagId = -1;
 var osszetevoFelhasznaltMennyiseg = -1;
@@ -51,6 +51,11 @@ async function getdata() {
 
     rendertermekek();
 }
+async function getdataKatto() {
+    /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
+    var response = await fetch("/datareadtermekek");
+    state.termekek = await response.json();
+}
 
 //VERSION-2:
 function rendertermekek() {
@@ -73,41 +78,103 @@ function rendertermekek() {
     }
     document.getElementById("termekek").innerHTML = termekekHTML;
     //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
-    $("#addNewBtn").click(function () {
-        document.getElementById("newTermek").innerHTML = "";
-        /* newTermek = false;
-        newBtncolor = 0;
-        origBtncolor = 0;
-        osszetevokHTML = ``; */
-        //let arrowIndex = -1;
-        /* for (let i = 0; i < state.termekek.length; i++) {
-            if (state.termekek[i].id == this.id) {
-                arrowIndex = i;
+    //$("#addNewBtn").click(function () {
+    $("#addNewBtn")
+        .off("click")
+        .on("click", function () {
+            document.getElementById("newTermek").innerHTML = "";
+            console.log("kezdhetetem az uj termeket");
+            //$("#addTermekModal").modal();
+            //renderBtnColor(origBtncolor);
+            console.log("state.termekek.length");
+            console.log(state.termekek.length);
+            //renderOsszetevok();
+            //VERSION-2:INFO:VERSION-2:
+            document.getElementById(
+                "newTermek"
+            ).innerHTML = `<table class="table table-striped text-center">
+            <thead>
+                <tr>
+                    <th>Neve</th>
+                    <th>Eladási ár</th>
+                    <th>Szinezése</th>
+                </tr>
+                <tr>
+                    <td><input type="text" name="tNev" id="tNev"></td>
+                    <td><input type="number" name="tEladasi" id="tEladasi" style="width: 7em"></td>
+                    <td>
+                        <input type="radio" id="primary" name="termekColor" value=0 checked>
+                          <label for="primary" class="bg-primary text-white xtermekColor ">KÉK</label>
+                          <input type="radio" id="szurke" name="termekColor" value=1>
+                          <label for="szurke" class="bg-dark text-white xtermekColor">SZÜRKE</label>
+                          <input type="radio" id="zold" name="termekColor" value=2>
+                          <label for="zold" class="bg-success text-white xtermekColor">ZÖLD</label>
+                          <input type="radio" id="sarga" name="termekColor" value=3>
+                          <label for="sarga" class="bg-warning text-white xtermekColor">SÁRGA</label>
+                          <input type="radio" id="danger" name="termekColor" value=4>
+                          <label for="danger" class="bg-danger text-white xtermekColor">PIROS</label>
+                          <input type="radio" id="fekete" name="termekColor" value=5>
+                          <label for="fekete" class="bg-dark text-white xtermekColor">FEKETE</label>
+                          <input type="radio" id="feher" name="termekColor" value=6>
+                          <label for="feher" class="bg-light text-dark xtermekColor">FEHÉR</label>
+                    </td>
+                </tr>
+            </thead>
+        </table> <input type="button" value="Melyik?" id="cosnsoleWrite">
+        `;
+            $("#cosnsoleWrite").click(function () {
+                console.log("Naaaaaa😛");
+                var nev = document.getElementById("tNev").value;
+                console.log(nev);
+                var elar = document.getElementById("tEladasi").value;
+                console.log(elar);
+                const colorNumber = document.querySelectorAll(
+                    'input[name="termekColor"]'
+                );
+                var btncolor = "*";
+                for (selected of colorNumber) {
+                    if (selected.checked) {
+                        console.log(selected.value);
+                        btncolor = selected.value;
+                    }
+                }
+                inserttermekek(nev, elar, btncolor);
+            });
+
+            //VERSION-2:INFO:VERSION-2:
+            /* newTermek = false;
+            newBtncolor = 0;
+            origBtncolor = 0;
+            osszetevokHTML = ``;
+            let arrowIndex = 0;
+            for (let i = 0; i < state.termekek.length; i++) {
+                if (state.termekek[i].id == this.id) {
+                    arrowIndex = i;
+                }
             }
-        } */
-        //origNev = state.termekek[arrowIndex].nev;
-        //origElar = state.termekek[arrowIndex].elar;
-        //var origBtncolor = state.termekek[arrowIndex].btncolor;
-        //newBtncolor = origBtncolor;
-        //origId = state.termekek[arrowIndex].id;
-        /* $("#myModalTermek").modal();
-        document.getElementById("newNev").value = "";
-        document.getElementById("newElar").value = 0;
-        renderBtnColor(origBtncolor); */
-        //renderOsszetevok();
-        /* console.log("osszetevoAlapanyagId");
-        console.log(osszetevoAlapanyagId); */
-        //VERSION-2:
-        //VERSION-2:
-        /* const colorBtn = document.querySelector("#btnColorForm");
-        colorBtn.onchange = function () {
-            var x = document.getElementById("btnColorForm").value;
-            newBtncolor = parseInt(selectColor.findIndex(checkColor));
-            function checkColor(colorArrayNumber) {
-                return colorArrayNumber == x;
-            }
-        }; */
-    });
+            origNev = state.termekek[arrowIndex].nev;
+            origElar = state.termekek[arrowIndex].elar;
+            var origBtncolor = state.termekek[arrowIndex].btncolor;
+            newBtncolor = origBtncolor;
+            origId = state.termekek[arrowIndex].id;
+            $("#myModalTermek").modal();
+            document.getElementById("newNev").value = "";
+            document.getElementById("newElar").value = 0;
+            renderBtnColor(origBtncolor);
+            renderOsszetevok();
+            console.log("osszetevoAlapanyagId");
+            console.log(osszetevoAlapanyagId);
+
+            const colorBtn = document.querySelector("#btnColorForm");
+            colorBtn.onchange = function () {
+                var x = document.getElementById("btnColorForm").value;
+                newBtncolor = parseInt(selectColor.findIndex(checkColor));
+                function checkColor(colorArrayNumber) {
+                    return colorArrayNumber == x;
+                }
+            }; */
+            //VERSION-2:INFO:VERSION-2:
+        });
     //VERSION-2://VERSION-2://VERSION-2:
     $(".updateBtn").click(function () {
         let arrowIndex = -1;
@@ -326,6 +393,135 @@ function figyel() {
 /* HACK: */
 
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+function inserttermekek(vnev, velar, vbtncolor) {
+    const nev = vnev;
+    const elar = velar;
+    const btncolor = vbtncolor;
+    const urtartalom = 0;
+    const visiblesequence = state.termekek.length + 1;
+    console.log("itt vok");
+    insertMySQL();
+    async function insertMySQL() {
+        //id = origId;
+        const response = await fetch("/inserttermek/", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+                nev: nev,
+                elar: elar,
+                urtartalom: urtartalom,
+                btncolor: btncolor,
+                visiblesequence: visiblesequence,
+            }),
+        });
+        /* console.log("response");
+        console.log(response); */
+        /* let arrowIndex = -1;
+        for (let i = 0; i < state.termekek.length; i++) {
+            if (state.termekek[i].id == id) {
+                arrowIndex = i;
+            }
+        }
+        state.termekek[arrowIndex].nev = nev;
+        state.termekek[arrowIndex].elar = elar;
+        state.termekek[arrowIndex].btncolor = btncolor; */
+        //await renderOsszetevok();
+        await getdataKatto();
+        //await getdata();
+        await addButton();
+        function addButton() {
+            var modalHTML = createModal();
+            document.getElementById("newTermek").innerHTML =
+                `<div class="card"><h1>${nev}</h1><h3>Eladási ár: ${elar}, Id: ${visiblesequence}, ${btncolor}</h3><button type="button" class="btn btn-warning " id="addOsszetevo">
+            Alapanyag hozzáadása
+        </button></div><div id="selectOsszetevo"></div>` + modalHTML;
+        }
+        console.log("state.termekek");
+        console.log(state.termekek);
+        await addOsszetevoKatto();
+        function addOsszetevoKatto() {
+            $("#addOsszetevo").click(function () {
+                console.log("addOsszetevo click func NO modal");
+                $("#myModalAdd").modal();
+                selectOsszetevokHTML = "";
+                let index = 0;
+                for (alapanyag of state.alapanyagok) {
+                    if (alapanyag.mertekegyseg == "liter") {
+                        selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
+                    }
+                    index++;
+                }
+                document.getElementById("selectOsszetevo").innerHTML =
+                    selectOsszetevokHTML;
+
+                $(".selected").click(function (e) {
+                    osszetevoAlapanyagId = this.id;
+                    alapanyagKiszereles = e.target.dataset.kiszereles;
+                    alapanyagNev = e.target.dataset.nev;
+                    console.log("this.id-------------------------");
+                    console.log(osszetevoAlapanyagId);
+                    $("#myModalAdd .close").click();
+                    $("#myModalFelhasznalt").modal();
+                    document.getElementById("felhasznalt").value =
+                        alapanyagKiszereles;
+                    document.getElementById("felhasznaltNev").innerHTML =
+                        alapanyagNev;
+                    console.log("this.id------SZAL-------------");
+                    console.log("origId");
+                    console.log(origId);
+                    console.log("origNev");
+                    console.log(origNev);
+                    console.log("osszetevoAlapanyagId");
+                    console.log(osszetevoAlapanyagId);
+                    //VERSION-2:INFO:
+                    //insertOsszetevokMySQL();insertOsszetevokMySQL()
+                    //$('#link').off('click').on('click',function(){});
+                    $("#felhasznaltBTN")
+                        .off("click")
+                        .on("click", function () {
+                            insertOsszetevokMySQL();
+                        });
+                    /* $("#felhasznaltBTN").click(function () {
+                        insertOsszetevokMySQL();
+                    }); */
+                    //VERSION-2:INFO:
+                    //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+                    async function insertOsszetevokMySQL() {
+                        termek_id = visiblesequence;
+                        alapanyag_id = osszetevoAlapanyagId;
+                        //VERSION-2:INFO:
+                        felhasznaltmennyiseg =
+                            document.getElementById("felhasznalt").value;
+                        //VERSION-2:INFO:
+                        //felhasznaltmennyiseg = alapanyagKiszereles;
+                        await fetch("/insertosszetevok/", {
+                            method: "POST",
+                            headers: {
+                                "Content-type": "application/json",
+                            },
+                            body: JSON.stringify({
+                                termek_id: termek_id,
+                                alapanyag_id: alapanyag_id,
+                                felhasznaltmennyiseg: felhasznaltmennyiseg,
+                            }),
+                        });
+                        window.location.href = "/termekek-adatlap";
+                        /* console.log("state.osszetevok elotte");
+                        console.log(state.osszetevok); */
+                        /* await getdata();
+                        await renderOsszetevok();
+                        console.log("state.osszetevok 😋");
+                        console.log(state.osszetevok); */
+                    }
+                    //VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+                });
+            });
+        }
+        //await rendertermekek();
+    }
+}
 function updatetermekek() {
     /* INFO:HACK:HACK:HACK: */
     const nev = document.getElementById("newNev").value;
@@ -334,6 +530,7 @@ function updatetermekek() {
     const urtartalom = 0;
     const visiblesequence = state.termekek.length + 1;
     /* HACK:HACK:HACK:INFO: */
+    //VERSION-2://VERSION-2://VERSION-2:
     if (newTermek) {
         try {
             console.log("newTermek");
@@ -346,6 +543,8 @@ function updatetermekek() {
             updateMySQL();
         } catch (e) {}
     }
+    //VERSION-2://VERSION-2://VERSION-2:
+    //updateMySQL();
     newTermek = false;
     /* HACK:HACK:HACK:INFO: */
     async function insertMySQL() {
@@ -374,8 +573,8 @@ function updatetermekek() {
         state.termekek[arrowIndex].btncolor = btncolor;
         await getdata();
         await rendertermekek();
-        /* HACK:HACK:HACK:INFO: */
     }
+    /* HACK:HACK:HACK:INFO: */
     async function updateMySQL() {
         id = origId;
         newTermek = false;
@@ -413,6 +612,35 @@ function addAlapanyag() {
     //VERSION-2://VERSION-2:
 }
 //VERSION-2:
+
+function createModal() {
+    return `<div class="modal" id="myModalFelhasznalt">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header bg-warning">
+                <h4 class="modal-title">Milyen mennyiséget használjak fel?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <h3 class="card" id="felhasznaltNev"></h3>
+                <input type="number" id="felhasznalt" name="felhasznalt">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer bg-warning">
+                <button type="button" class="btn btn-info" data-dismiss="modal"
+                    id="felhasznaltBTN">Rögzíten</button>
+            </div>
+
+        </div>
+    </div>
+</div>`;
+}
 
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 /* 

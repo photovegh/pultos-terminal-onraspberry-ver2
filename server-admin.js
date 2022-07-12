@@ -371,7 +371,7 @@ app.post("/inserttermekek", bodyParser.json(), (req, res) => {
     //const nev = req.body.nev;
     //const beszar = req.body.beszar;
     /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-    var insertData = [
+    /* var insertData = [
         req.body.nev,
         req.body.beszar,
         req.body.elar,
@@ -384,11 +384,10 @@ app.post("/inserttermekek", bodyParser.json(), (req, res) => {
         req.body.sumcl,
         req.body.kiszerelesId,
         req.body.csoportId,
-    ];
+    ]; */
     /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-
     /* FIXME:FIXME:FIXME: */
-    con.query(
+    /* con.query(
         "INSERT INTO termekek (nev, beszar, elar, leltarozando, kritikus, gyujto, urtartalom, keszlet,  cl, sumcl, kiszereles_id, csoport_id) VALUES (?)",
         [insertData],
         (err, data) => {
@@ -400,10 +399,9 @@ app.post("/inserttermekek", bodyParser.json(), (req, res) => {
                 if (err) throw err;
             }
         }
-    );
+    ); */
     /* FIXME:FIXME:FIXME: */
-
-    res.sendFile(__dirname + "/views/termekek.html");
+    //res.sendFile(__dirname + "/views/termekek.html");
 });
 /* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 
