@@ -12,15 +12,16 @@ const selectColor = [
     "dark",
     "light",
 ];
-const selectName = [
-    "KÉK",
-    "SZÜRKE",
-    "ZÖLD",
-    "SÁRGA",
-    "PIROS",
-    "FEKETE",
-    "FEHÉR",
-];
+var selectName = [];
+/* const selectName = [
+    "ILYEN",
+    "OLYAN",
+    "KATEGÓRIA",
+    "MAJD",
+    "EL",
+    "KELL",
+    "DÖNTENI",
+]; */
 var productsHTML = "";
 var productsHTMLdrop = "";
 var xid = 1;
@@ -48,6 +49,12 @@ async function getdata() {
     /* NOTE: get datareadtermekek INFO: INFO: INFO:*/
     var response = await fetch("/datareadosszetevok");
     state.osszetevok = await response.json();
+
+    /* NOTE: get categories */
+    var response = await fetch("/categories");
+    selectName = await response.json();
+    console.log("kategóriák");
+    console.log(selectName);
 
     rendertermekek();
 }
@@ -104,19 +111,19 @@ function rendertermekek() {
                     <td><input type="number" name="tEladasi" id="tEladasi" style="width: 7em"></td>
                     <td>
                         <input type="radio" id="primary" name="termekColor" value=0 checked>
-                          <label for="primary" class="bg-primary text-white xtermekColor ">KÉK</label>
+                          <label for="primary" class="bg-primary text-white xtermekColor ">${selectName[0]}</label>
                           <input type="radio" id="szurke" name="termekColor" value=1>
-                          <label for="szurke" class="bg-dark text-white xtermekColor">SZÜRKE</label>
+                          <label for="szurke" class="bg-dark text-white xtermekColor">${selectName[1]}</label>
                           <input type="radio" id="zold" name="termekColor" value=2>
-                          <label for="zold" class="bg-success text-white xtermekColor">ZÖLD</label>
+                          <label for="zold" class="bg-success text-white xtermekColor">${selectName[2]}</label>
                           <input type="radio" id="sarga" name="termekColor" value=3>
-                          <label for="sarga" class="bg-warning text-white xtermekColor">SÁRGA</label>
+                          <label for="sarga" class="bg-warning text-white xtermekColor">${selectName[3]}</label>
                           <input type="radio" id="danger" name="termekColor" value=4>
-                          <label for="danger" class="bg-danger text-white xtermekColor">PIROS</label>
+                          <label for="danger" class="bg-danger text-white xtermekColor">${selectName[4]}</label>
                           <input type="radio" id="fekete" name="termekColor" value=5>
-                          <label for="fekete" class="bg-dark text-white xtermekColor">FEKETE</label>
+                          <label for="fekete" class="bg-dark text-white xtermekColor">${selectName[5]}</label>
                           <input type="radio" id="feher" name="termekColor" value=6>
-                          <label for="feher" class="bg-light text-dark xtermekColor">FEHÉR</label>
+                          <label for="feher" class="bg-light text-dark xtermekColor">${selectName[6]}</label>
                     </td>
                 </tr>
             </thead>
@@ -285,9 +292,12 @@ function renderOsszetevok() {
         selectOsszetevokHTML = "";
         let index = 0;
         for (alapanyag of state.alapanyagok) {
-            if (alapanyag.mertekegyseg == "liter") {
+            //VERSION-2://VERSION-2:
+            /* if (alapanyag.mertekegyseg == "liter") {
                 selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
-            }
+            } */
+            //VERSION-2://VERSION-2:
+            selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
             index++;
         }
         document.getElementById("selectOsszetevo").innerHTML =
@@ -448,9 +458,10 @@ function inserttermekek(vnev, velar, vbtncolor) {
                 selectOsszetevokHTML = "";
                 let index = 0;
                 for (alapanyag of state.alapanyagok) {
-                    if (alapanyag.mertekegyseg == "liter") {
+                    /* if (alapanyag.mertekegyseg == "liter") {
                         selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
-                    }
+                    } */
+                    selectOsszetevokHTML += `<button type="button" class="btn btn-outline-dark m-2 selected" data-kiszereles=${alapanyag.kiszereles} data-nev="${alapanyag.nev}" id=${alapanyag.id}>${alapanyag.nev}</button>`;
                     index++;
                 }
                 document.getElementById("selectOsszetevo").innerHTML =

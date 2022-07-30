@@ -713,3 +713,11 @@ app.post("/insertkevert", bodyParser.json(), (req, res) => {
 });
 /* BUG: insertkevert  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 //VERSION-2:
+//VERSION-2:
+/* INFO: kategoriák BUG:BUG: categori array send 😁 BUG:BUG:*/
+app.get("/categories", (req, res) => {
+    /* res.sendFile(__dirname + "/views/pultosok-admin.html"); */
+    console.log("backEnd KATEGORIES ok");
+    res.sendFile(__dirname + "/categories.txt");
+});
+//VERSION-2:
