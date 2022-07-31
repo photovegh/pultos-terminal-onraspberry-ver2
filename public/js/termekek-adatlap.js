@@ -127,7 +127,7 @@ function rendertermekek() {
                     </td>
                 </tr>
             </thead>
-        </table> <input type="button" value="MENTÉS" id="cosnsoleWrite">
+        </table> <input type="button" value="MENTÉS" id="cosnsoleWrite" class="btn btn-danger m-4">
         `;
             $("#cosnsoleWrite").click(function () {
                 console.log("Naaaaaa😛");
