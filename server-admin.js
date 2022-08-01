@@ -43,6 +43,15 @@ app.get("/pultosokadminpsw", (req, res) => {
 });
 
 //VERSION-2:
+/* INFO: kategoriák BUG:BUG: categori array send 😁 BUG:BUG:*/
+app.get("/categories", (req, res) => {
+    /* res.sendFile(__dirname + "/views/pultosok-admin.html"); */
+    console.log("backEnd KATEGORIES ok");
+    res.sendFile(__dirname + "/categories.txt");
+});
+//VERSION-2:
+
+//VERSION-2:
 /* INFO: lasttransaction BUG:BUG: TOROLNI ??? NEM KELL??? BUG:BUG:*/
 app.get("/lasttransaction", (req, res) => {
     res.sendFile(__dirname + "/last-transaction.json");
@@ -365,46 +374,6 @@ app.patch("/updatetermekek", bodyParser.json(), (req, res) => {
         req.body.gyujto,
     ]; */
 
-/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
-/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
-app.post("/inserttermekek", bodyParser.json(), (req, res) => {
-    //const nev = req.body.nev;
-    //const beszar = req.body.beszar;
-    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-    /* var insertData = [
-        req.body.nev,
-        req.body.beszar,
-        req.body.elar,
-        req.body.leltarozando,
-        req.body.kritikus,
-        req.body.gyujto,
-        req.body.urtartalom,
-        req.body.jelenlegiKeszlet,
-        req.body.cl,
-        req.body.sumcl,
-        req.body.kiszerelesId,
-        req.body.csoportId,
-    ]; */
-    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
-    /* FIXME:FIXME:FIXME: */
-    /* con.query(
-        "INSERT INTO termekek (nev, beszar, elar, leltarozando, kritikus, gyujto, urtartalom, keszlet,  cl, sumcl, kiszereles_id, csoport_id) VALUES (?)",
-        [insertData],
-        (err, data) => {
-            if (err) throw err;
-            insertData = [""];
-            try {
-                res.send(data);
-            } catch {
-                if (err) throw err;
-            }
-        }
-    ); */
-    /* FIXME:FIXME:FIXME: */
-    //res.sendFile(__dirname + "/views/termekek.html");
-});
-/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
-
 /* INFO: password authentication */
 function loggerMiddleWare(req, res, next) {
     const pin = true;
@@ -713,11 +682,43 @@ app.post("/insertkevert", bodyParser.json(), (req, res) => {
 });
 /* BUG: insertkevert  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
 //VERSION-2:
-//VERSION-2:
-/* INFO: kategoriák BUG:BUG: categori array send 😁 BUG:BUG:*/
-app.get("/categories", (req, res) => {
-    /* res.sendFile(__dirname + "/views/pultosok-admin.html"); */
-    console.log("backEnd KATEGORIES ok");
-    res.sendFile(__dirname + "/categories.txt");
+
+/* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
+/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */
+app.post("/inserttermekek", bodyParser.json(), (req, res) => {
+    //const nev = req.body.nev;
+    //const beszar = req.body.beszar;
+    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
+    /* var insertData = [
+        req.body.nev,
+        req.body.beszar,
+        req.body.elar,
+        req.body.leltarozando,
+        req.body.kritikus,
+        req.body.gyujto,
+        req.body.urtartalom,
+        req.body.jelenlegiKeszlet,
+        req.body.cl,
+        req.body.sumcl,
+        req.body.kiszerelesId,
+        req.body.csoportId,
+    ]; */
+    /* NOTE:NOTE:NOTE:NOTE:NOTE: */
+    /* FIXME:FIXME:FIXME: */
+    /* con.query(
+        "INSERT INTO termekek (nev, beszar, elar, leltarozando, kritikus, gyujto, urtartalom, keszlet,  cl, sumcl, kiszereles_id, csoport_id) VALUES (?)",
+        [insertData],
+        (err, data) => {
+            if (err) throw err;
+            insertData = [""];
+            try {
+                res.send(data);
+            } catch {
+                if (err) throw err;
+            }
+        }
+    ); */
+    /* FIXME:FIXME:FIXME: */
+    //res.sendFile(__dirname + "/views/termekek.html");
 });
-//VERSION-2:
+/* BUG: inserttermekek  BUG:BUG:BUG:BUG:BUG:BUG:BUG: */

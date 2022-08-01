@@ -115,14 +115,6 @@ app.patch("/keszletmodositas", bodyParser.json(), (req, res) => {
 });
 /* TODO:TODO:TODO:TODO:TODO:TODO:TODO: */
 
-/* TODO: //datareadkevert 😋😋😋😋😋😋*/
-app.get("/datareadkevert", (req, res) => {
-    con.query("SELECT * FROM kevert", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
 /* INFO: lasttransactionread */
 app.get("/lasttransactionread", (req, res) => {
     con.query("SELECT * FROM transaction", (err, data) => {
@@ -174,64 +166,15 @@ con.query("SELECT * FROM termekek", (err, data) => {
     termekeks = data;
 });
 
-/* INFO: /dataread 😋😋😋😋😋😋*/
-app.get("/dataread", (req, res) => {
+/* INFO: /datareadtermekek 😋😋😋😋😋😋*/
+app.get("/datareadtermekek", (req, res) => {
     con.query("SELECT * FROM termekek", (err, data) => {
         if (err) throw err;
         res.send(data);
     });
 });
 
-/* INFO: /datareadcsoport 😋😋😋😋😋😋*/
-app.get("/datareadcsoport", (req, res) => {
-    con.query("SELECT * FROM csoportok", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* INFO: /datareadkiszerelés 😋😋😋😋😋😋*/
-app.get("/datareadkiszereles", (req, res) => {
-    con.query("SELECT * FROM kiszereles", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* INFO: /datareadxkimeres 😋😋😋😋😋😋*/
-app.get("/datareadxkimeres", (req, res) => {
-    con.query("SELECT * FROM xkimeres", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* INFO: /datareadxkimeresnev 😋😋😋😋😋😋*/
-app.get("/datareadxkimeresnev", (req, res) => {
-    con.query("SELECT * FROM xkimeresnev", (err, data) => {
-        if (err) throw err;
-        res.send(data);
-    });
-});
-
-/* INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO: /dataread2 😋😋😋😋😋😋*/
-app.get("/dataread2", (req, res) => {
-    con.query("SELECT * FROM termekek", (err, rows) => {
-        if (err) throw err;
-        var xxx = [];
-        let i = 0;
-        rows.forEach((row) => {
-            xxx[i] += row.nev;
-            i++;
-        });
-        res.send(JSON.stringify(xxx[2]));
-    });
-});
-
-/* INFO: config */
-app.get("/config", (req, res) => {
-    res.sendFile(__dirname + "/views/config.html");
-});
+//VERSION-2:
 
 /* INFO: induló képernyő */
 app.get("/", (req, res) => {
@@ -263,3 +206,58 @@ app.get("/pult", loggerMiddleWare, (req, res) => {
     res.sendFile(__dirname + "/views/pult.html");
 });
 app.listen(port, () => console.log("server is OK 😋 PORT: " + port));
+
+//VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2://VERSION-2:
+
+/* TODO: //datareadkevert 😋😋😋😋😋😋*/
+/* app.get("/datareadkevert", (req, res) => {
+    con.query("SELECT * FROM kevert", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+}); */
+/* INFO: /datareadcsoport 😋😋😋😋😋😋*/
+/* app.get("/datareadcsoport", (req, res) => {
+    con.query("SELECT * FROM csoportok", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+}); */
+/* INFO: /datareadkiszerelés 😋😋😋😋😋😋*/
+/* app.get("/datareadkiszereles", (req, res) => {
+    con.query("SELECT * FROM kiszereles", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+}); */
+/* INFO: /datareadxkimeres 😋😋😋😋😋😋*/
+/* app.get("/datareadxkimeres", (req, res) => {
+    con.query("SELECT * FROM xkimeres", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+}); */
+/* INFO: /datareadxkimeresnev 😋😋😋😋😋😋*/
+/* app.get("/datareadxkimeresnev", (req, res) => {
+    con.query("SELECT * FROM xkimeresnev", (err, data) => {
+        if (err) throw err;
+        res.send(data);
+    });
+}); */
+/* INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO:INFO: /dataread2 😋😋😋😋😋😋*/
+app.get("/dataread2", (req, res) => {
+    con.query("SELECT * FROM termekek", (err, rows) => {
+        if (err) throw err;
+        var xxx = [];
+        let i = 0;
+        rows.forEach((row) => {
+            xxx[i] += row.nev;
+            i++;
+        });
+        res.send(JSON.stringify(xxx[2]));
+    });
+});
+/* INFO: config */
+app.get("/config", (req, res) => {
+    res.sendFile(__dirname + "/views/config.html");
+});

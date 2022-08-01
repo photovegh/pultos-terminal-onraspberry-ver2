@@ -23,8 +23,8 @@ var trFizetesMod = "";
 
 //HACK: * renderProducts() setup * HACK:
 var productItem = 0;
-const tabSor = 2;
-const tabOszlop = 3;
+const tabSor = 4;
+const tabOszlop = 6;
 const widthBTN = 10;
 const heightBTN = 4;
 //const allTabs = parseInt(productItem / (tabSor * tabOszlop));
@@ -32,12 +32,12 @@ var createTabsHTML = "";
 var createContentHTML = "";
 const btnBgColor = [
     "primary",
+    "secondary",
     "success",
-    "info",
     "warning",
     "danger",
-    "secondary",
     "dark",
+    "light",
 ];
 //const termek = [];
 /* for (let index = 0; index < productItem; index++) {
@@ -48,6 +48,13 @@ const btnBgColor = [
 //HACK: *  * HACK:
 createTrNumber();
 const state = {
+    termekek: [],
+    pult: [],
+    kosarak: [],
+    kosarNevek: [],
+    fullTransactionsHitel: [],
+};
+/* const state = {
     keszlet: [],
     csoportkategoria: [],
     xkimeres: [],
@@ -57,7 +64,7 @@ const state = {
     kosarNevek: [],
     kevert: [],
     fullTransactionsHitel: [],
-};
+}; */
 
 var productsHTML = "";
 var foundPult = false;
@@ -79,24 +86,24 @@ async function getdata() {
     state.fullTransactionsHitel = await response.json();
 
     /* NOTE: get kevert */
-    var response = await fetch("/datareadkevert");
-    state.kevert = await response.json();
+    /* var response = await fetch("/datareadkevert");
+    state.kevert = await response.json(); */ //VERSION-2:
 
     /* NOTE: get keszlet */
-    var response = await fetch("/dataread");
-    state.keszlet = await response.json();
+    var response = await fetch("/datareadtermekek");
+    state.termekek = await response.json();
 
     /* NOTE: get csoport */
-    var response = await fetch("/datareadcsoport");
-    state.csoportkategoria = await response.json();
-
+    /* var response = await fetch("/datareadcsoport");
+    state.csoportkategoria = await response.json(); */ //VERSION-2:INFO:csoport!!!
+    //VERSION-2:
     /* NOTE: get xkimeres INFO: INFO: INFO:*/
-    var response = await fetch("/datareadxkimeres");
-    state.xkimeres = await response.json();
-
+    /* var response = await fetch("/datareadxkimeres");
+    state.xkimeres = await response.json(); */
+    //VERSION-2:
     /* NOTE: get xkimeresnev INFO: INFO: INFO:*/
-    var response = await fetch("/datareadxkimeresnev");
-    state.xkimeresnev = await response.json();
+    /*  var response = await fetch("/datareadxkimeresnev");
+    state.xkimeresnev = await response.json(); */
 
     renderProducts(); /* HACK: fv() hívás HACK: */
 
@@ -120,33 +127,38 @@ async function getdata() {
             var edb = 1;
 
             xButtonOrP = e.target.nodeName;
-            if (state.keszlet[arrayIndex].kiszereles_id == 2) {
+            if (state.termekek[arrayIndex].kiszereles_id == 2) {
                 if (e.target.nodeName == "P") {
-                    sorokKiszerelesId = state.keszlet[arrayIndex].kiszereles_id; //HACK:
+                    sorokKiszerelesId =
+                        state.termekek[arrayIndex].kiszereles_id; //HACK:
                     arrayIndextoggle = this.id; //HACK:
-                    sorokNev = state.keszlet[arrayIndex].nev; //HACK:
-                    sorokId = state.keszlet[arrayIndex].id; //HACK:
+                    sorokNev = state.termekek[arrayIndex].nev; //HACK:
+                    sorokId = state.termekek[arrayIndex].id; //HACK:
                     eladottElar = Math.round(
-                        (state.keszlet[arrayIndex].elar /
-                            state.keszlet[arrayIndex].cl) *
-                            state.xkimeresnev[arrayIndextoggle].urtartalom
+                        (state.termekek[arrayIndex].elar /
+                            state.termekek[arrayIndex].cl) *
+                            1 //VERSION-2:
+                        /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
                     );
                     sorokXkimeresNevNev =
-                        state.xkimeresnev[arrayIndextoggle].nev; //HACK:
-                    sorokXkimeresNevId = state.xkimeresnev[arrayIndextoggle].id;
-                    sorokXkimeresNevUrtartalom =
-                        state.xkimeresnev[arrayIndextoggle].urtartalom;
+                        /* state.xkimeresnev[arrayIndextoggle].nev */ //VERSION-2:
+                        sorokXkimeresNevId = //VERSION-2:
+                        /* state.xkimeresnev[arrayIndextoggle].id; */ sorokXkimeresNevUrtartalom =
+                        /* state.xkimeresnev[arrayIndextoggle].urtartalom; */ //VERSION-2:
 
-                    sorokEladottBeszar = Math.round(
-                        (state.keszlet[arrayIndex].beszar /
-                            state.keszlet[arrayIndex].cl) *
-                            state.xkimeresnev[arrayIndextoggle].urtartalom
-                    );
+                        sorokEladottBeszar =
+                            Math.round(
+                                (state.termekek[arrayIndex].beszar /
+                                    state.termekek[arrayIndex].cl) *
+                                    1 //VERSION-2:
+                                /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
+                            );
 
                     sorokEladottElar = Math.round(
-                        (state.keszlet[arrayIndex].elar /
-                            state.keszlet[arrayIndex].cl) *
-                            state.xkimeresnev[arrayIndextoggle].urtartalom
+                        (state.termekek[arrayIndex].elar /
+                            state.termekek[arrayIndex].cl) *
+                            1 //VERSION-2:
+                        /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
                     );
                     datum = theTime();
                     state.pult.push({
@@ -158,7 +170,7 @@ async function getdata() {
                         xkimeresnevurtartalom: sorokXkimeresNevUrtartalom,
                         db: edb,
                         cl: sorokXkimeresNevUrtartalom,
-                        sumcl: state.keszlet[arrayIndex].sumcl,
+                        sumcl: state.termekek[arrayIndex].sumcl,
                         eladottbeszar: sorokEladottBeszar,
                         eladottelar: sorokEladottElar,
                         fizetesmod: "k",
@@ -174,14 +186,14 @@ async function getdata() {
                     renderPult();
                 }
             } else {
-                eladottElar = state.keszlet[arrayIndex].elar;
-                sorokNev = state.keszlet[arrayIndex].nev; //HACK:
-                sorokId = state.keszlet[arrayIndex].id; //HACK:
-                sorokKiszerelesId = state.keszlet[arrayIndex].kiszereles_id; //HACK:
+                eladottElar = state.termekek[arrayIndex].elar;
+                sorokNev = state.termekek[arrayIndex].nev; //HACK:
+                sorokId = state.termekek[arrayIndex].id; //HACK:
+                sorokKiszerelesId = state.termekek[arrayIndex].kiszereles_id; //HACK:
 
-                sorokEladottBeszar = state.keszlet[arrayIndex].beszar;
+                sorokEladottBeszar = state.termekek[arrayIndex].beszar;
 
-                sorokEladottElar = state.keszlet[arrayIndex].elar;
+                sorokEladottElar = state.termekek[arrayIndex].elar;
                 datum = theTime();
                 state.pult.push({
                     id: sorokId,
@@ -191,8 +203,8 @@ async function getdata() {
                     xkimeresnevid: -1,
                     xkimeresnevurtartalom: " ",
                     db: edb,
-                    cl: state.keszlet[arrayIndex].cl,
-                    sumcl: state.keszlet[arrayIndex].sumcl,
+                    cl: state.termekek[arrayIndex].cl,
+                    sumcl: state.termekek[arrayIndex].sumcl,
                     eladottbeszar: sorokEladottBeszar,
                     eladottelar: sorokEladottElar,
                     fizetesmod: "c",
@@ -207,7 +219,7 @@ async function getdata() {
             /* HACK: now */
             /* document.getElementById("csoportnevKijelzo").innerHTML =
                 state.csoportkategoria[
-                    state.keszlet[arrayIndex].csoport_id - 1
+                    state.termekek[arrayIndex].csoport_id - 1
                 ].nev; */
         });
     });
@@ -220,10 +232,10 @@ function renderProducts() {
         productsHTML += `<p class="bg-dark text-white mb-0 ">${csoport.nev}</p>`;
         let vIndex = 0;
         //HACK: *  * HACK:
-        for (const product of state.keszlet) {
+        for (const product of state.termekek) {
             var i = 0;
             if (csoport.id == product.csoport_id) {
-                if (state.keszlet[vIndex].kiszereles_id == 2) {
+                if (state.termekek[vIndex].kiszereles_id == 2) {
                     var productsHTMLxkimeresnev = "";
                     for (let vKimeres of state.xkimeres) {
                         if (vKimeres.termek_id == product.id) {
@@ -250,10 +262,10 @@ function renderProducts() {
         //HACK: *  * HACK:
         productsHTML += `<br>`;
     } */
-    productItem = state.keszlet.length;
+    productItem = state.termekek.length;
     var allTabs = parseInt(productItem / (tabSor * tabOszlop));
     console.log(productItem);
-    console.log(state.keszlet);
+    console.log(state.termekek);
     renderPult();
     $(document).ready(function () {
         $(".nav-tabs a").click(function () {
@@ -292,12 +304,12 @@ function renderProducts() {
             } */
             for (let index = 0; index < actualContentIndex; index++) {
                 /* console.log(
-                    btnBgColor[state.keszlet[contentIndex + index].csoport_id]
+                    btnBgColor[state.termekek[contentIndex + index].csoport_id]
                 ); */
                 createContentHTML += `<button type="button" class=" m-3 btn btn-${
-                    btnBgColor[state.keszlet[contentIndex + index].csoport_id]
+                    btnBgColor[state.termekek[contentIndex + index].btncolor]
                 }" style="width: ${widthBTN}em; height: ${heightBTN}em; font-size: 125%">${
-                    state.keszlet[contentIndex + index].nev
+                    state.termekek[contentIndex + index].nev
                 }</button>`;
             }
             contentIndex = contentIndex + tabSor * tabOszlop;
@@ -369,41 +381,41 @@ function renderPult() {
 /* TODO:TODO:TODO: TERMEK KESZLET MODOSITAS TODO:TODO:TODO: */
 function termekKeszletModositas(sendData, muvelet) {
     if (sendData.kiszerelesId == 1) {
-        for (let index = 0; index < state.kevert.length; index++) {
-            if (sendData.id == state.kevert[index].termek_id) {
-                for (let i = 0; i < state.keszlet.length; i++) {
-                    if (state.kevert[index].adalek_id == state.keszlet[i].id) {
+        //for (let index = 0; index < state.kevert.length; index++) {
+        //  if (sendData.id == state.kevert[index].termek_id) {
+        //    for (let i = 0; i < state.termekek.length; i++) {
+        /* if (state.kevert[index].adalek_id == state.termekek[i].id) {
                         for (let ii = 0; ii < state.xkimeresnev.length; ii++) {
                             if (
                                 state.kevert[index].xkimeresnev_id ==
                                 state.xkimeresnev[ii].id
                             ) {
                                 if (muvelet == "minus") {
-                                    state.keszlet[i].sumcl =
-                                        state.keszlet[i].sumcl -
+                                    state.termekek[i].sumcl =
+                                        state.termekek[i].sumcl -
                                         state.xkimeresnev[ii].urtartalom;
                                 }
                                 if (muvelet == "plus") {
-                                    state.keszlet[i].sumcl =
-                                        state.keszlet[i].sumcl +
+                                    state.termekek[i].sumcl =
+                                        state.termekek[i].sumcl +
                                         state.xkimeresnev[ii].urtartalom;
                                 }
                                 if (muvelet == "reset") {
-                                    state.keszlet[i].sumcl =
-                                        state.keszlet[i].sumcl +
+                                    state.termekek[i].sumcl =
+                                        state.termekek[i].sumcl +
                                         state.xkimeresnev[ii].urtartalom *
                                             sendData.db;
                                 }
                                 tarolj(
-                                    state.keszlet[i].id,
-                                    state.keszlet[i].sumcl
+                                    state.termekek[i].id,
+                                    state.termekek[i].sumcl
                                 );
                             }
                         }
-                    }
-                }
-            }
-        }
+                    } */
+        //     }
+        //   }
+        // }
     } else {
         if (muvelet == "minus") {
             sendData.sumcl = sendData.sumcl - sendData.cl;
