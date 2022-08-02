@@ -5,7 +5,7 @@ var datum = new Date().toLocaleString();
 const userLocalName = localStorage.getItem("user");
 console.log(userLocalName);
 document.getElementById("localStorageName").innerHTML = userLocalName;
-
+/* localStorage "user"-t hasznalatba van, a tobbi nem !!! BUG: */
 var trNumber = "";
 var pultos = 2;
 var lastTransactionId = -1;
@@ -23,8 +23,10 @@ var trFizetesMod = "";
 
 //HACK: * renderProducts() setup * HACK:
 var productItem = 0;
-const tabSor = 4;
-const tabOszlop = 6;
+const tabSor = 2;
+const tabOszlop = 2;
+/* const tabSor = 4;
+const tabOszlop = 6; */
 const widthBTN = 10;
 const heightBTN = 4;
 //const allTabs = parseInt(productItem / (tabSor * tabOszlop));
@@ -109,25 +111,36 @@ async function getdata() {
 
     /* NOTE: A button click funkciójának figyelése */
     $(document).ready(function () {
+        console.log("Ezzel mi a tokom van ???🤔🤔🤔🤔🤔");
         let arrayIndex = -1;
-        let arrayIndextoggle = -1;
+        //let arrayIndextoggle = -1;
         let eladottElar = -1;
         let sorokNev;
         let kosarUjsorIndex = -1;
         localStorage.setItem("eladottElar", eladottElar);
-        let summa = 0;
-        let xxx = "";
-        $(".btnKeszlet, .dropdown-item, .dropdown-toggle").click(function (e) {
-            if (e.target.nodeName == "BUTTON") {
-                arrayIndex = this.id;
+        //let summa = 0;
+        //let xxx = "";
+        /* $(".termekButton").click(function (e) {
+            console.log("pult BUTTON CLISK 😁😁 is OK");
+            console.log(this.id);
+            console.log(state.termekek[this.id - 1].nev);
+            //console.log(e);
+        }); */
+        $(".termekButton").click(function (e) {
+            console.log("pult BUTTON CLISK 😁😁 is OK");
+            console.log("e.target.nodeName");
+            console.log(e.target.nodeName);
+            arrayIndex = this.id - 1;
+            /* if (e.target.nodeName == "BUTTON") {
+                arrayIndex = this.id - 1;
                 localStorage.setItem("arrayIndex", arrayIndex);
-            }
+            } */
             /* NOTE: INFO: ?? */
-            let xButtonOrP = "";
+            /* let xButtonOrP = ""; */
             var edb = 1;
 
-            xButtonOrP = e.target.nodeName;
-            if (state.termekek[arrayIndex].kiszereles_id == 2) {
+            /* xButtonOrP = e.target.nodeName; */
+            /* if (state.termekek[arrayIndex].kiszereles_id == 2) {
                 if (e.target.nodeName == "P") {
                     sorokKiszerelesId =
                         state.termekek[arrayIndex].kiszereles_id; //HACK:
@@ -137,28 +150,22 @@ async function getdata() {
                     eladottElar = Math.round(
                         (state.termekek[arrayIndex].elar /
                             state.termekek[arrayIndex].cl) *
-                            1 //VERSION-2:
-                        /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
+                            1
                     );
                     sorokXkimeresNevNev =
-                        /* state.xkimeresnev[arrayIndextoggle].nev */ //VERSION-2:
-                        sorokXkimeresNevId = //VERSION-2:
-                        /* state.xkimeresnev[arrayIndextoggle].id; */ sorokXkimeresNevUrtartalom =
-                        /* state.xkimeresnev[arrayIndextoggle].urtartalom; */ //VERSION-2:
-
+                        sorokXkimeresNevId =
+                        sorokXkimeresNevUrtartalom =
                         sorokEladottBeszar =
                             Math.round(
                                 (state.termekek[arrayIndex].beszar /
                                     state.termekek[arrayIndex].cl) *
-                                    1 //VERSION-2:
-                                /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
+                                    1
                             );
 
                     sorokEladottElar = Math.round(
                         (state.termekek[arrayIndex].elar /
                             state.termekek[arrayIndex].cl) *
-                            1 //VERSION-2:
-                        /* state.xkimeresnev[arrayIndextoggle].urtartalom */ //VERSION-2:
+                            1
                     );
                     datum = theTime();
                     state.pult.push({
@@ -185,37 +192,40 @@ async function getdata() {
                     );
                     renderPult();
                 }
-            } else {
-                eladottElar = state.termekek[arrayIndex].elar;
-                sorokNev = state.termekek[arrayIndex].nev; //HACK:
-                sorokId = state.termekek[arrayIndex].id; //HACK:
-                sorokKiszerelesId = state.termekek[arrayIndex].kiszereles_id; //HACK:
+            } else { */ //VERSION-2:
+            eladottElar = state.termekek[arrayIndex].elar;
+            sorokNev = state.termekek[arrayIndex].nev; //HACK:
+            sorokId = state.termekek[arrayIndex].id; //HACK:
+            sorokKiszerelesId = state.termekek[arrayIndex].kiszereles_id; //HACK:
 
-                sorokEladottBeszar = state.termekek[arrayIndex].beszar;
+            sorokEladottBeszar = state.termekek[arrayIndex].beszar;
 
-                sorokEladottElar = state.termekek[arrayIndex].elar;
-                datum = theTime();
-                state.pult.push({
-                    id: sorokId,
-                    nev: sorokNev,
-                    kiszerelesId: sorokKiszerelesId,
-                    xkimeresnevnev: " ",
-                    xkimeresnevid: -1,
-                    xkimeresnevurtartalom: " ",
-                    db: edb,
-                    cl: state.termekek[arrayIndex].cl,
-                    sumcl: state.termekek[arrayIndex].sumcl,
-                    eladottbeszar: sorokEladottBeszar,
-                    eladottelar: sorokEladottElar,
-                    fizetesmod: "c",
-                    transactionnumber: 21,
-                    megjegyzes: "info",
-                    datum: datum,
-                });
-                kosarUjsorIndex = state.pult.length - 1;
-                termekKeszletModositas(state.pult[kosarUjsorIndex], "minus");
-                renderPult();
-            }
+            sorokEladottElar = state.termekek[arrayIndex].elar;
+            datum = theTime();
+            state.pult.push({
+                id: sorokId,
+                nev: sorokNev,
+                kiszerelesId: sorokKiszerelesId,
+                xkimeresnevnev: " ",
+                xkimeresnevid: -1,
+                xkimeresnevurtartalom: " ",
+                db: edb,
+                cl: state.termekek[arrayIndex].cl,
+                sumcl: state.termekek[arrayIndex].sumcl,
+                eladottbeszar: sorokEladottBeszar,
+                eladottelar: sorokEladottElar,
+                fizetesmod: "c",
+                transactionnumber: 21,
+                megjegyzes: "info",
+                datum: datum,
+            });
+
+            console.log(state.pult);
+
+            kosarUjsorIndex = state.pult.length - 1;
+            termekKeszletModositas(state.pult[kosarUjsorIndex], "minus");
+            renderPult();
+            /* } */ //VERSION-2:
             /* HACK: now */
             /* document.getElementById("csoportnevKijelzo").innerHTML =
                 state.csoportkategoria[
@@ -228,6 +238,7 @@ async function getdata() {
 /* TODO:TODO:TODO: RENDERPRODUCT TODO:TODO:TODO: */
 /* HACK: termék button-ok felrajzolása STAR HACK: */
 function renderProducts() {
+    console.log("pult renderProducts 😛😛😁 is OK");
     /*     for (const csoport of state.csoportkategoria) {
         productsHTML += `<p class="bg-dark text-white mb-0 ">${csoport.nev}</p>`;
         let vIndex = 0;
@@ -264,7 +275,8 @@ function renderProducts() {
     } */
     productItem = state.termekek.length;
     var allTabs = parseInt(productItem / (tabSor * tabOszlop));
-    console.log(productItem);
+    /* console.log(productItem);
+    console.log(state.termekek); */
     console.log(state.termekek);
     renderPult();
     $(document).ready(function () {
@@ -273,13 +285,14 @@ function renderProducts() {
         });
     });
     function renderPult() {
+        console.log("pult renderPult 😎😂😎 is OK");
         var contentIndex = 0;
         var actualContentIndex = 0;
         for (let tabIndex = 0; tabIndex <= allTabs; tabIndex++) {
-            console.log("tabIndex");
+            /* console.log("tabIndex");
             console.log(tabIndex);
             console.log("allTabs");
-            console.log(allTabs);
+            console.log(allTabs); */
             createTabsHTML += `<li class="nav-item">
             <a class="nav-link ${
                 tabIndex == 0 ? "active" : ""
@@ -308,9 +321,16 @@ function renderProducts() {
                 ); */
                 createContentHTML += `<button type="button" class=" m-3 btn btn-${
                     btnBgColor[state.termekek[contentIndex + index].btncolor]
-                }" style="width: ${widthBTN}em; height: ${heightBTN}em; font-size: 125%">${
-                    state.termekek[contentIndex + index].nev
-                }</button>`;
+                } termekButton" style="width: ${widthBTN}em; height: ${heightBTN}em; font-size: 125%" id = ${
+                    state.termekek[contentIndex + index].id
+                }>${state.termekek[contentIndex + index].nev}</button>`;
+                //console.log(state.termekek[contentIndex + index].nev);
+                /* console.log("contentIndex");
+                console.log(contentIndex); */
+                /* console.log("id");
+                console.log(state.termekek[contentIndex + index].id); */
+                /* console.log("index");
+                console.log(index); */
             }
             contentIndex = contentIndex + tabSor * tabOszlop;
             createContentHTML += `</div>`;
@@ -327,7 +347,7 @@ function renderPult() {
     //FIXME: FIXME: FIXME:
     var tetelSorokHTML = "";
     var mindosszesen = 0;
-    var mindosszesenElar = 0;
+    //var mindosszesenElar = 0;
     var mindosszesenBeszar = 0;
     var tombIndex = 0;
     for (var sorok of state.pult) {
@@ -552,6 +572,7 @@ $(".kosarak").click(function () {
 
 /* TODO:TODO:TODO: TR KP TODO:TODO:TODO: */
 function trKp() {
+    console.log("trKp() is OK");
     let trFizetesMod = "k";
     trNumber = createTrNumber();
     let megjegyzes = "*";
